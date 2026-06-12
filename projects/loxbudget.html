@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>loxbudget — LOX · Vanderhell</title>
+<meta name="description" content="loxbudget — small heap-free C99 admission-control library. A deterministic pre-flight gate for risky embedded operations.">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="icon" type="image/png" href="../favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ice:#EEF5F8;--frost:#DCEAF1;--ink:#0B1F2A;--lox:#0FA3C8;--lox-deep:#086A84;
+  --pro:#F4A300;--line:#0B1F2A;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+  --disp:'Archivo',sans-serif;--body:'Inter',system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--ice);color:var(--ink);line-height:1.6;overflow-x:hidden}
+::selection{background:var(--lox);color:#fff}
+.grid-bg{position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background-image:linear-gradient(rgba(11,31,42,.05) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(11,31,42,.05) 1px,transparent 1px);background-size:48px 48px}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:var(--ice);border-bottom:2px solid var(--line)}
+.nav-inner{max-width:1180px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:62px}
+.logo{font-family:var(--mono);font-weight:600;font-size:15px;text-decoration:none;color:var(--ink);display:flex;align-items:center;gap:10px}
+.logo .dot{width:12px;height:12px;background:var(--lox);display:inline-block}
+.nav-links{display:flex;gap:4px;align-items:center}
+.nav-links a{font-family:var(--mono);font-size:13px;color:var(--ink);text-decoration:none;padding:8px 14px;transition:background .15s,color .15s}
+.nav-links a:hover{background:var(--ink);color:var(--ice)}
+.nav-links a.gh{border:2px solid var(--line);margin-left:8px}
+.nav-links a.gh:hover{background:var(--lox);color:#fff;border-color:var(--lox)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.eyebrow{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--lox-deep);display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.eyebrow::before{content:"";width:34px;height:2px;background:var(--lox)}
+.rv{opacity:0;transform:translateY(26px);transition:opacity .6s ease,transform .6s ease}
+.rv.in{opacity:1;transform:none}
+.rv.d1{transition-delay:.08s}.rv.d2{transition-delay:.16s}.rv.d3{transition-delay:.24s}
+
+.phero{padding:150px 0 70px;background:#05080C;color:#EAF6FA;border-bottom:2px solid var(--line);position:relative;overflow:hidden}
+.phero::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(15,163,200,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(15,163,200,.08) 1px,transparent 1px);
+  background-size:48px 48px}
+.phero .wrap{position:relative}
+.crumb{font-family:var(--mono);font-size:13px;margin-bottom:26px}
+.crumb a{color:#7FD4EA;text-decoration:none}
+.crumb a:hover{text-decoration:underline}
+.phero h1{font-family:var(--disp);font-weight:900;font-size:clamp(42px,6vw,76px);letter-spacing:-.02em;line-height:1;text-transform:lowercase}
+.phero h1 span{color:var(--lox)}
+.phero p.tag{font-family:var(--mono);font-size:15px;margin-top:18px;max-width:640px;color:#9DBCC9}
+.badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+.badge{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.1em;padding:6px 12px;text-transform:uppercase;border:1px solid rgba(15,163,200,.45)}
+.badge.b-mit{background:rgba(15,163,200,.15);color:var(--lox)}
+.badge.b-com{background:var(--pro);color:var(--ink);border-color:var(--pro)}
+.badge.b-n{background:transparent;color:#9DBCC9}
+
+section{padding:90px 0}
+h2{font-family:var(--disp);font-weight:800;font-size:clamp(26px,3.6vw,38px);letter-spacing:-.01em;margin-bottom:16px}
+.sub{max-width:680px;color:#3A4F5C;font-size:16.5px}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:46px}
+.feat{background:#fff;border:2px solid var(--line);padding:24px 22px;transition:transform .18s,box-shadow .18s}
+.feat:hover{transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--lox)}
+.feat h4{font-family:var(--mono);font-size:13.5px;font-weight:600;color:var(--lox-deep);margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em}
+.feat p{font-size:14px;color:#3A4F5C}
+.honest{margin-top:60px;border:2px solid var(--line);background:var(--frost);padding:30px 28px;box-shadow:8px 8px 0 var(--line)}
+.honest h3{font-family:var(--mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--lox-deep);margin-bottom:12px}
+.honest p{font-size:15px;color:#2A3F4C;max-width:760px}
+.cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:54px}
+.btn{font-family:var(--mono);font-size:14px;font-weight:600;text-decoration:none;padding:14px 26px;display:inline-block;border:2px solid var(--line);transition:transform .15s,box-shadow .15s;box-shadow:5px 5px 0 var(--line)}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--line)}
+.btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--line)}
+.btn-solid{background:var(--lox);color:#fff}
+.btn-ghost{background:var(--ice);color:var(--ink)}
+.next{border-top:2px solid var(--line);background:var(--ink);color:var(--ice)}
+.next .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px}
+.next a{font-family:var(--mono);text-decoration:none;color:var(--lox);font-size:15px;font-weight:600}
+.next a:hover{text-decoration:underline}
+.next span{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#7FAFC0}
+footer{border-top:2px solid var(--line);padding:30px 0;background:var(--ice)}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+footer p{font-family:var(--mono);font-size:12.5px;color:#5A707C;display:flex;align-items:center;gap:12px}
+footer img{height:30px;width:auto;border:1px solid var(--line)}
+footer a{color:var(--lox-deep);text-decoration:none;font-weight:600}
+footer a:hover{text-decoration:underline}
+@media(max-width:900px){.feat-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:620px){.feat-grid{grid-template-columns:1fr}.nav-links a:not(.gh){display:none}section{padding:70px 0}.phero{padding:120px 0 60px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<nav>
+  <div class="nav-inner">
+    <a class="logo" href="../index.html"><img src="../lox-mark-dark.svg" alt="LOX" style="height:22px;width:auto;display:block">vanderhell</a>
+    <div class="nav-links">
+      <a href="../index.html#lox">LOX family</a>
+      <a href="../index.html#toolkit">micro-toolkit</a>
+      <a href="../index.html#collab">Collaborate</a>
+      <a class="gh" href="https://github.com/Vanderhell/loxbudget" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+  </div>
+</nav>
+
+<header class="phero">
+  <div class="wrap">
+    <div class="crumb rv in"><a href="../index.html">← Back to all projects</a></div>
+    <h1 class="rv in">lox<span>budget</span></h1>
+    <p class="tag rv in d1">May this operation run right now, and how? A small, heap-free C99 library that answers deterministically — based on resource budgets, rate windows and optional calibration.</p>
+    <div class="badges rv in d2"><span class="badge b-mit">MIT license</span><span class="badge b-n">C99</span><span class="badge b-n">No heap · no floats</span><span class="badge b-n">Semver since v1.0.0</span></div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow rv">Overview</div>
+    <h2 class="rv d1">A pre-flight gate in front of risky firmware work</h2>
+    <p class="sub rv d2">MQTT publish, OTA update, flash write, log burst, debug dump, parser invocation, queue allocation — any operation that must be degraded, delayed, rejected or allowed under pressure gets a deterministic answer before it runs.</p>
+    <div class="feat-grid">
+      <div class="feat rv"><h4>check / enter / leave</h4><p>Deterministic decisions per operation profile.</p></div>
+      <div class="feat rv"><h4>Caller-owned state</h4><p>No heap, no floats, no global mutable state.</p></div>
+      <div class="feat rv"><h4>Audit ring buffer</h4><p>Optional record of recent decisions.</p></div>
+      <div class="feat rv"><h4>Rate windows</h4><p>Optional rate windows and lifetime limits — e.g. flash-write lifetime budgets.</p></div>
+      <div class="feat rv"><h4>Calibration</h4><p>Optional calibration and diagnostic strings.</p></div>
+      <div class="feat rv"><h4>Single header</h4><p>Single-header amalgamated distribution option; stable public API since v1.0.0.</p></div>
+    </div>
+    <div class="honest rv"><h3>What loxbudget is not</h3><p>Not a scheduler, allocator, watchdog, logger, profiler or RTOS replacement. Its value is narrower: an admission-control layer that prevents MQTT storms, blocks OTA on unsafe voltage, degrades logging under memory pressure, and rejects non-critical work in survival mode.</p></div>
+    <div class="cta-row rv">
+      <a class="btn btn-solid" href="https://github.com/Vanderhell/loxbudget" target="_blank" rel="noopener">View loxbudget on GitHub</a>
+      <a class="btn btn-ghost" href="../index.html#lox">All LOX projects</a>
+    </div>
+  </div>
+</section>
+
+<section class="next">
+  <div class="wrap">
+    <span>Next in the family</span>
+    <a href="loxc.html">loxc — trainable C99 text codec →</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p><img src="../lox-mark-dark.svg" alt="LOX" style="border:none;height:20px"> © <span id="yr"></span> Vanderhell — small code, clear contracts, real tests, and no claims without evidence.</p>
+    <p><a href="mailto:Vanderhell@gmail.com">Vanderhell@gmail.com</a> · <a href="https://github.com/Vanderhell" target="_blank" rel="noopener">github.com/Vanderhell ↗</a></p>
+  </div>
+</footer>
+
+<script>
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12});
+document.querySelectorAll('.rv:not(.in)').forEach(el=>io.observe(el));
+document.getElementById('yr').textContent=new Date().getFullYear();
+</script>
+</body>
+</html>
