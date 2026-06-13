@@ -1,26 +1,26 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vanderhell — Liquid Oxygen for Embedded Systems</title>
-<meta name="description" content="Vanderhell — industrial software and embedded systems developer. LOX family: deterministic C99 libraries for firmware, storage, safety and diagnostics.">
+<title>Peter Hajduch / Vanderhell â€” Software and Embedded Systems Developer</title>
+<meta name="description" content="Peter Hajduch, known as Vanderhell, develops industrial software, embedded systems, C99 firmware libraries and developer tools. Creator of the LOX project family.">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="icon" type="image/png" href="favicon.png">
-<meta property="og:title" content="LOX — Liquid Oxygen for Embedded Systems">
-<meta property="og:description" content="Deterministic C99 building blocks for constrained firmware: loxdb, loxdb_pro, loxguard, loxbudget, loxc — and the micro-toolkit ecosystem.">
+<meta property="og:title" content="Peter Hajduch / Vanderhell â€” Software and Embedded Systems Developer">
+<meta property="og:description" content="Industrial software, embedded systems, firmware infrastructure and the LOX family of focused C99 libraries.">
 <meta property="og:image" content="https://vanderhell.github.io/lox-logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --ice:#EEF5F8;        /* cold white background */
-  --frost:#DCEAF1;      /* panel tint */
-  --ink:#0B1F2A;        /* deep navy ink */
-  --lox:#0FA3C8;        /* liquid-oxygen cyan */
-  --lox-deep:#086A84;   /* deep cyan */
-  --pro:#F4A300;        /* commercial amber */
+  --ice:#EEF5F8;
+  --frost:#DCEAF1;
+  --ink:#0B1F2A;
+  --lox:#0FA3C8;
+  --lox-deep:#086A84;
+  --pro:#F4A300;
   --line:#0B1F2A;
   --mono:'IBM Plex Mono',ui-monospace,monospace;
   --disp:'Archivo',sans-serif;
@@ -37,7 +37,6 @@ body{
 }
 ::selection{background:var(--lox);color:#fff}
 
-/* ---------- background grid ---------- */
 .grid-bg{
   position:fixed;inset:0;z-index:-1;pointer-events:none;
   background-image:
@@ -46,7 +45,6 @@ body{
   background-size:48px 48px;
 }
 
-/* ---------- nav ---------- */
 nav{
   position:fixed;top:0;left:0;right:0;z-index:100;
   background:var(--ice);
@@ -54,11 +52,13 @@ nav{
 }
 .nav-inner{
   max-width:1180px;margin:0 auto;padding:0 24px;
-  display:flex;align-items:center;justify-content:space-between;height:62px;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:62px;
 }
-.logo{font-family:var(--mono);font-weight:600;font-size:15px;text-decoration:none;color:var(--ink);display:flex;align-items:center;gap:10px}
-.logo .dot{width:12px;height:12px;background:var(--lox);display:inline-block}
-.nav-links{display:flex;gap:4px;align-items:center}
+.logo{
+  font-family:var(--mono);font-weight:600;font-size:15px;text-decoration:none;color:var(--ink);
+  display:flex;align-items:center;gap:10px;white-space:nowrap
+}
+.nav-links{display:flex;gap:4px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
 .nav-links a{
   font-family:var(--mono);font-size:13px;color:var(--ink);text-decoration:none;
   padding:8px 14px;transition:background .15s,color .15s;
@@ -68,7 +68,6 @@ nav{
 .nav-links a.gh:hover{background:var(--lox);color:#fff;border-color:var(--lox)}
 #progress{position:absolute;bottom:-2px;left:0;height:2px;background:var(--lox);width:0%;z-index:101}
 
-/* ---------- layout helpers ---------- */
 .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
 section{padding:110px 0}
 .eyebrow{
@@ -80,12 +79,20 @@ section{padding:110px 0}
 h2{font-family:var(--disp);font-weight:800;font-size:clamp(30px,4.5vw,46px);line-height:1.08;letter-spacing:-.01em;margin-bottom:18px}
 .sub{max-width:640px;color:#3A4F5C;font-size:17px}
 
-/* ---------- reveal ---------- */
+.focus-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:40px}
+.focus-card{
+  background:#fff;border:2px solid var(--line);padding:24px 22px;
+  box-shadow:0 0 0 var(--line);transition:transform .18s,box-shadow .18s;
+}
+.focus-card:hover{transform:translate(-3px,-3px);box-shadow:7px 7px 0 var(--lox)}
+.focus-card h3{font-family:var(--disp);font-size:20px;font-weight:800;line-height:1.15;margin-bottom:10px}
+.focus-card p{font-size:14.5px;color:#3A4F5C}
+.focus-card .eyebrow{margin-bottom:12px}
+
 .rv{opacity:0;transform:translateY(26px);transition:opacity .6s ease,transform .6s ease}
 .rv.in{opacity:1;transform:none}
 .rv.d1{transition-delay:.08s}.rv.d2{transition-delay:.16s}.rv.d3{transition-delay:.24s}.rv.d4{transition-delay:.32s}
 
-/* ---------- hero ---------- */
 .hero{padding:170px 0 110px;position:relative}
 .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:64px;align-items:center}
 .hero h1{
@@ -93,9 +100,8 @@ h2{font-family:var(--disp);font-weight:800;font-size:clamp(30px,4.5vw,46px);line
   font-size:clamp(44px,6.4vw,82px);
   line-height:.98;letter-spacing:-.025em;text-transform:uppercase;
 }
-.hero h1 .lox-word{color:var(--lox);position:relative;display:inline-block}
 .hero h1 .o2{font-size:.45em;vertical-align:baseline;color:var(--lox-deep)}
-.hero p.lede{margin:26px 0 34px;font-size:18px;color:#3A4F5C;max-width:520px}
+.hero p.lede{margin:26px 0 34px;font-size:18px;color:#3A4F5C;max-width:560px}
 .hero-cta{display:flex;gap:14px;flex-wrap:wrap}
 .btn{
   font-family:var(--mono);font-size:14px;font-weight:600;text-decoration:none;
@@ -108,7 +114,6 @@ h2{font-family:var(--disp);font-weight:800;font-size:clamp(30px,4.5vw,46px);line
 .btn-solid{background:var(--lox);color:#fff;border-color:var(--line)}
 .btn-ghost{background:var(--ice);color:var(--ink)}
 
-/* terminal */
 .term{
   background:var(--ink);color:#BFE9F5;font-family:var(--mono);font-size:13.5px;
   border:2px solid var(--line);box-shadow:10px 10px 0 var(--lox);
@@ -124,7 +129,6 @@ h2{font-family:var(--disp);font-weight:800;font-size:clamp(30px,4.5vw,46px);line
 .cursor{display:inline-block;width:9px;height:17px;background:#BFE9F5;vertical-align:-3px;animation:blink 1s steps(1) infinite}
 @keyframes blink{50%{opacity:0}}
 
-/* ---------- principles strip ---------- */
 .strip{background:var(--ink);color:var(--ice);padding:0;border-top:2px solid var(--line);border-bottom:2px solid var(--line)}
 .strip .wrap{display:grid;grid-template-columns:repeat(3,1fr);}
 .pr{
@@ -134,7 +138,6 @@ h2{font-family:var(--disp);font-weight:800;font-size:clamp(30px,4.5vw,46px);line
 .pr:first-child{border-left:none}
 .pr b{display:block;color:var(--lox);font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px;font-weight:600}
 
-/* ---------- brand band ---------- */
 .brand{
   background:#05080C;border-top:2px solid var(--line);border-bottom:2px solid var(--line);
   padding:90px 0;position:relative;overflow:hidden;
@@ -164,7 +167,6 @@ h2{font-family:var(--disp);font-weight:800;font-size:clamp(30px,4.5vw,46px);line
 }
 @keyframes scan{from{top:0}to{top:100%}}
 
-/* ---------- LOX family ---------- */
 .lox-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:22px;margin-top:54px}
 .card{
   background:#fff;border:2px solid var(--line);padding:30px 28px;
@@ -182,7 +184,7 @@ h2{font-family:var(--disp);font-weight:800;font-size:clamp(30px,4.5vw,46px);line
 .card h3{font-family:var(--disp);font-weight:800;font-size:24px;letter-spacing:-.01em;margin-bottom:10px}
 .card p{font-size:14.5px;color:#3A4F5C;flex:1}
 .card .more{font-family:var(--mono);font-size:12.5px;font-weight:600;margin-top:20px;color:var(--lox-deep)}
-.card .more::after{content:" →";transition:margin .15s}
+.card .more::after{content:" â†’";transition:margin .15s}
 .card:hover .more::after{margin-left:6px}
 .span-3{grid-column:span 3}
 .span-2{grid-column:span 2}
@@ -195,18 +197,16 @@ h2{font-family:var(--disp);font-weight:800;font-size:clamp(30px,4.5vw,46px);line
 .models{display:flex;gap:8px;flex-wrap:wrap;margin:4px 0 16px}
 .models span{font-family:var(--mono);font-size:11px;padding:5px 10px;background:rgba(15,163,200,.16);color:var(--lox);border:1px solid rgba(15,163,200,.4)}
 
-/* ---------- marquee ---------- */
 .marquee{
   border-top:2px solid var(--line);border-bottom:2px solid var(--line);
   background:var(--lox);color:#fff;overflow:hidden;padding:16px 0;
 }
 .marquee-track{display:flex;width:max-content;animation:scroll 30s linear infinite;font-family:var(--mono);font-size:14px;font-weight:500}
 .marquee-track span{padding:0 26px;white-space:nowrap}
-.marquee-track span::after{content:"·";margin-left:52px;opacity:.6}
+.marquee-track span::after{content:"&middot;";margin-left:52px;opacity:.6}
 @keyframes scroll{to{transform:translateX(-50%)}}
 .marquee:hover .marquee-track{animation-play-state:paused}
 
-/* ---------- toolkit / guard grids ---------- */
 .mod-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-top:50px}
 .mod{
   background:#fff;border:2px solid var(--line);padding:20px 18px;text-decoration:none;color:var(--ink);
@@ -218,7 +218,6 @@ h2{font-family:var(--disp);font-weight:800;font-size:clamp(30px,4.5vw,46px);line
 .mod p{font-size:12.5px;color:#3A4F5C;line-height:1.5;transition:color .15s}
 .guard-grid{grid-template-columns:repeat(3,1fr)}
 
-/* ---------- more work ---------- */
 .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin-top:50px}
 .col h3{font-family:var(--disp);font-weight:700;font-size:18px;padding-bottom:12px;border-bottom:2px solid var(--line);margin-bottom:16px}
 .col ul{list-style:none}
@@ -227,7 +226,6 @@ h2{font-family:var(--disp);font-weight:800;font-size:clamp(30px,4.5vw,46px);line
 .col li a:hover{color:var(--lox-deep);text-decoration:underline}
 .col li small{color:#5A707C;display:block;font-size:12.5px}
 
-/* ---------- collab ---------- */
 .collab{background:var(--ink);color:var(--ice);border-top:2px solid var(--line)}
 .collab h2{color:#fff}
 .collab .sub{color:#9DBCC9}
@@ -239,16 +237,15 @@ h2{font-family:var(--disp);font-weight:800;font-size:clamp(30px,4.5vw,46px);line
 }
 .tags span:hover{background:var(--lox);color:#fff;border-color:var(--lox)}
 
-/* ---------- footer ---------- */
 footer{border-top:2px solid var(--line);padding:34px 0;background:var(--ice)}
 footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
 footer p{font-family:var(--mono);font-size:12.5px;color:#5A707C}
 footer a{color:var(--lox-deep);text-decoration:none;font-weight:600}
 footer a:hover{text-decoration:underline}
 
-/* ---------- responsive ---------- */
 @media(max-width:980px){
   .hero-grid{grid-template-columns:1fr;gap:48px}
+  .focus-grid{grid-template-columns:1fr 1fr}
   .lox-grid{grid-template-columns:1fr 1fr}
   .span-3,.span-2{grid-column:span 1}
   .mod-grid{grid-template-columns:repeat(3,1fr)}
@@ -257,10 +254,12 @@ footer a:hover{text-decoration:underline}
   .cols{grid-template-columns:1fr}
 }
 @media(max-width:620px){
+  .nav-inner{min-height:auto;padding:14px 24px;flex-direction:column;align-items:flex-start}
+  .nav-links{justify-content:flex-start}
+  .focus-grid{grid-template-columns:1fr}
   .lox-grid{grid-template-columns:1fr}
   .mod-grid{grid-template-columns:1fr 1fr}
   .guard-grid{grid-template-columns:1fr}
-  .nav-links a:not(.gh){display:none}
   section{padding:80px 0}
   .hero{padding:130px 0 80px}
 }
@@ -276,28 +275,28 @@ footer a:hover{text-decoration:underline}
 
 <nav>
   <div class="nav-inner">
-    <a class="logo" href="#top"><img src="lox-mark-dark.svg" alt="LOX" style="height:22px;width:auto;display:block">vanderhell</a>
+    <a class="logo" href="#top">Peter Hajduch / Vanderhell</a>
     <div class="nav-links">
+      <a href="#top">About</a>
+      <a href="#focus">Focus</a>
       <a href="#lox">LOX family</a>
-      <a href="#toolkit">micro-toolkit</a>
-      <a href="#work">More work</a>
+      <a href="#work">Projects</a>
       <a href="#collab">Collaborate</a>
-      <a class="gh" href="https://github.com/Vanderhell" target="_blank" rel="noopener">GitHub ↗</a>
+      <a class="gh" href="https://github.com/Vanderhell" target="_blank" rel="noopener">GitHub</a>
     </div>
   </div>
   <div id="progress"></div>
 </nav>
 
-<!-- ================= HERO ================= -->
 <header class="hero" id="top">
   <div class="wrap hero-grid">
     <div>
-      <div class="eyebrow rv">Vanderhell — industrial &amp; embedded systems developer</div>
-      <h1 class="rv d1">Liquid <span class="lox-word">Oxygen</span><br>for embedded<br>systems<span class="o2">_</span></h1>
-      <p class="lede rv d2">Small, focused C99 libraries and tools for real-world firmware: deterministic storage, runtime safety, diagnostics and industrial communication. Predictable behavior, clear failure modes, zero or minimal dependencies — and tests before claims.</p>
+      <div class="eyebrow rv">Peter Hajduch / Vanderhell</div>
+      <h1 class="rv d1">Software and<br>embedded systems<br>developer<span class="o2">_</span></h1>
+      <p class="lede rv d2">I build industrial software, embedded C libraries, firmware infrastructure and developer tools with a focus on predictable behavior, clear failure modes and practical integration with real hardware. My work spans C, C++, C#/.NET, microcontrollers, industrial communication, storage, diagnostics and reliability-oriented systems.</p>
       <div class="hero-cta rv d3">
-        <a class="btn btn-solid" href="#lox">Explore the LOX family</a>
-        <a class="btn btn-ghost" href="https://github.com/Vanderhell" target="_blank" rel="noopener">github.com/Vanderhell</a>
+        <a class="btn btn-solid" href="#focus">Explore my work</a>
+        <a class="btn btn-ghost" href="https://github.com/Vanderhell" target="_blank" rel="noopener">View GitHub</a>
       </div>
     </div>
     <div class="rv d2">
@@ -309,42 +308,71 @@ footer a:hover{text-decoration:underline}
   </div>
 </header>
 
-<!-- ================= PRINCIPLES ================= -->
+<section id="focus">
+  <div class="wrap">
+    <div class="eyebrow rv">What I work on</div>
+    <h2 class="rv d1">Software from industrial applications to constrained firmware</h2>
+    <p class="sub rv d2">I work across application software, embedded systems and the infrastructure between them. The common goal is software that is understandable, testable and practical to integrate.</p>
+
+    <div class="focus-grid">
+      <div class="focus-card rv">
+        <div class="eyebrow">Industrial software</div>
+        <h3>C# and .NET tooling for real systems</h3>
+        <p>Desktop and internal business tools, industrial data processing, SQL-backed applications and integration layers that connect software with production processes.</p>
+      </div>
+      <div class="focus-card rv d1">
+        <div class="eyebrow">Embedded systems</div>
+        <h3>C and C++ firmware for MCU targets</h3>
+        <p>Embedded C99 libraries, microcontrollers, ESP32 work, deterministic memory and execution behavior, and hardware abstraction for constrained environments.</p>
+      </div>
+      <div class="focus-card rv d2">
+        <div class="eyebrow">Reliability and diagnostics</div>
+        <h3>Failure handling you can inspect</h3>
+        <p>Runtime safety, persistent evidence, logging, recovery behavior, storage integrity and explicit system contracts that can be tested rather than assumed.</p>
+      </div>
+      <div class="focus-card rv d3">
+        <div class="eyebrow">Communication and tooling</div>
+        <h3>Industrial protocols and host tools</h3>
+        <p>Industrial communication, Modbus and device integration, host-side utilities, diagnostics and development tools that bridge embedded devices and desktop systems.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <div class="strip">
   <div class="wrap">
-    <div class="pr rv"><b>Design bias</b>Predictable behavior · small integration surface · clear failure modes</div>
-    <div class="pr rv d1"><b>Dependencies</b>Zero or minimal. No heap where it matters, no code generation — <span style="color:var(--lox)">#include</span> and go</div>
-    <div class="pr rv d2"><b>Proof</b>Tests before claims. Tools that solve real problems, not demo problems</div>
+    <div class="pr rv"><b>Design bias</b>Predictable behavior, small integration surfaces and explicit failure modes</div>
+    <div class="pr rv d1"><b>Dependencies</b>Minimal where appropriate. C99 embedded libraries can stay lean without pretending every part of the stack is heap-free</div>
+    <div class="pr rv d2"><b>Proof</b>Tests and evidence before claims. Practical tools over demo-only abstractions</div>
   </div>
 </div>
 
-<!-- ================= BRAND ================= -->
 <div class="brand">
   <span class="scan"></span>
   <div class="wrap rv">
-    <img src="lox-logo.svg" alt="LOX — Liquid Oxygen · Embedded Systems">
-    <p>One mark · one promise — deterministic firmware infrastructure</p>
+    <div class="eyebrow" style="justify-content:center;color:#7FD4EA">My project family</div>
+    <h2 style="color:#fff;margin-bottom:14px">LOX - Liquid Oxygen</h2>
+    <p style="max-width:760px;color:#9DBCC9;margin:0 auto 30px;font-family:var(--body);font-size:17px;letter-spacing:0;text-transform:none">LOX is my family of embedded and systems-software projects. It brings together focused libraries for storage, boot, safety, diagnostics, permissions, sequencing and resource control under one technical identity.</p>
+    <img src="lox-logo.svg" alt="LOX - Liquid Oxygen - Embedded Systems">
+    <p>Peter Hajduch creates LOX - a technical brand for embedded systems work</p>
   </div>
 </div>
 
-<!-- ================= LOX FAMILY ================= -->
 <section id="lox">
   <div class="wrap">
     <div class="eyebrow rv">The LOX family</div>
     <h2 class="rv d1">Deterministic building blocks<br>for constrained firmware</h2>
-    <p class="sub rv d2">A family of C99 libraries built around one idea: firmware deserves storage, safety and resource control with predictable memory and a small integration surface.</p>
+    <p class="sub rv d2">These are the LOX projects that grew out of Peter Hajduch's embedded and systems work: C99 libraries built around storage, safety and resource control with predictable memory and a small integration surface.</p>
 
     <div class="lox-grid">
-      <!-- loxdb flagship -->
       <a class="card flag span-3 rv" href="projects/loxdb.html">
         <div class="card-tag">loxdb / flagship <span class="badge mit">MIT core</span></div>
         <h3>Deterministic embedded database for MCU &amp; edge</h3>
         <div class="models"><span>KV</span><span>Time-series</span><span>Relational tables</span></div>
-        <p>Three storage models behind one C99 API. One allocation at <code style="font-family:var(--mono)">lox_init()</code>, fixed RAM budgeting, zero external dependencies, RAM-only or storage-backed operation, optional WAL-backed persistence and recovery, embedded-first storage HAL. Intentionally narrower than SQLite — built for dataloggers, controllers and small edge runtimes.</p>
+        <p>Three storage models behind one C99 API. One allocation at <code style="font-family:var(--mono)">lox_init()</code>, fixed RAM budgeting, zero external dependencies, RAM-only or storage-backed operation, optional WAL-backed persistence and recovery, embedded-first storage HAL. Intentionally narrower than SQLite - built for dataloggers, controllers and small edge runtimes.</p>
         <span class="more">Open loxdb detail</span>
       </a>
 
-      <!-- loxdb_pro commercial -->
       <a class="card pro span-3 rv d1" href="projects/loxdb-pro.html">
         <div class="card-tag">loxdb_pro <span class="badge com">Commercial</span></div>
         <h3>Production modules around the loxdb core</h3>
@@ -352,23 +380,20 @@ footer a:hover{text-decoration:underline}
         <span class="more">Open loxdb_pro detail</span>
       </a>
 
-      <!-- loxboot -->
       <a class="card span-2 rv" href="projects/loxboot.html">
         <div class="card-tag">loxboot <span class="badge mit">C99</span></div>
         <h3>Zero-heap bootloader core</h3>
-        <p>A/B slot model, boot state validation, UART update transport, rollback-oriented boot flow, and a clean platform handoff boundary — without heap allocation.</p>
+        <p>A/B slot model, boot state validation, UART update transport, rollback-oriented boot flow, and a clean platform handoff boundary - without heap allocation.</p>
         <span class="more">Open loxboot detail</span>
       </a>
 
-      <!-- loxguard -->
       <a class="card span-2 rv d1" href="projects/loxguard.html">
         <div class="card-tag">loxguard <span class="badge mit">C99</span></div>
         <h3>Guard Blocks for embedded C</h3>
-        <p>Explicit execution boundaries around risky code — parsers, protocol handlers, recovery-sensitive routines. Failures become structured runtime evidence instead of a bare watchdog reset.</p>
+        <p>Explicit execution boundaries around risky code - parsers, protocol handlers, recovery-sensitive routines. Failures become structured runtime evidence instead of a bare watchdog reset.</p>
         <span class="more">Open loxguard detail</span>
       </a>
 
-      <!-- loxalarm -->
       <a class="card span-2 rv d2" href="projects/loxalarm.html">
         <div class="card-tag">loxalarm <span class="badge mit">C99</span></div>
         <h3>Deterministic alarm-state core</h3>
@@ -376,15 +401,13 @@ footer a:hover{text-decoration:underline}
         <span class="more">Open loxalarm detail</span>
       </a>
 
-      <!-- loxseq -->
       <a class="card span-2 rv" href="projects/loxseq.html">
         <div class="card-tag">loxseq <span class="badge mit">C99</span></div>
         <h3>Power-loss-aware step sequencer</h3>
-        <p>Checkpointed step progress with a reboot recovery/resume policy per step — multi-step procedures that survive a power drop mid-step.</p>
+        <p>Checkpointed step progress with a reboot recovery/resume policy per step - multi-step procedures that survive a power drop mid-step.</p>
         <span class="more">Open loxseq detail</span>
       </a>
 
-      <!-- loxperm -->
       <a class="card span-2 rv d1" href="projects/loxperm.html">
         <div class="card-tag">loxperm <span class="badge mit">C99</span></div>
         <h3>Permissive / interlock evaluator</h3>
@@ -392,7 +415,6 @@ footer a:hover{text-decoration:underline}
         <span class="more">Open loxperm detail</span>
       </a>
 
-      <!-- loxbudget -->
       <a class="card span-2 rv d2" href="projects/loxbudget.html">
         <div class="card-tag">loxbudget <span class="badge mit">MIT</span></div>
         <h3>Deterministic admission control</h3>
@@ -400,39 +422,35 @@ footer a:hover{text-decoration:underline}
         <span class="more">Open loxbudget detail</span>
       </a>
 
-      <!-- loxc -->
-      <a class="card span-3 rv" href="projects/loxc.html">
+      <a class="card flag span-3 rv" href="projects/loxc.html">
         <div class="card-tag">loxc <span class="badge exp">Experimental</span></div>
         <h3>Trainable C99 text codec</h3>
-        <p>For developers who know their data: train a codec table from representative MQTT payloads, telemetry or logs, export it, and decode with predictable table-driven logic. Not a gzip competitor, not encryption — a compact encoding path for domain-specific text.</p>
+        <p>For developers who know their data: train a codec table from representative MQTT payloads, telemetry or logs, export it, and decode with predictable table-driven logic. Not a gzip competitor, not encryption - a compact encoding path for domain-specific text.</p>
         <span class="more">Open loxc detail</span>
       </a>
 
-      <!-- all repos CTA -->
       <a class="card flag span-3 rv d1" href="https://github.com/Vanderhell?tab=repositories" target="_blank" rel="noopener">
         <div class="card-tag">the whole family <span class="badge mit">GitHub</span></div>
-        <h3>9 LOX projects — and counting</h3>
+        <h3>9 LOX projects - and counting</h3>
         <p>Every LOX library follows the same contract: C99, predictable memory, small integration surface, clear failure modes, and tests before claims. Browse all repositories on GitHub.</p>
-        <span class="more">View all repositories ↗</span>
+        <span class="more">View all repositories -&gt;</span>
       </a>
     </div>
   </div>
 </section>
 
-<!-- ================= MARQUEE ================= -->
 <div class="marquee" aria-hidden="true">
   <div class="marquee-track" id="mq">
     <span>microsh</span><span>microlog</span><span>microfsm</span><span>microres</span><span>microconf</span><span>microcbor</span><span>micoring</span><span>microtimer</span><span>microbus</span><span>iotspool</span>
   </div>
 </div>
 
-<!-- ================= MICRO-TOOLKIT ================= -->
 <section id="toolkit">
   <div class="wrap">
     <div class="eyebrow rv">micro-toolkit</div>
-    <h2 class="rv d1">Modular C99 libraries —<br><span style="color:var(--lox)">#include</span> and go</h2>
+    <h2 class="rv d1">Modular C99 libraries -<br><span style="color:var(--lox)">#include</span> and go</h2>
     <p class="sub rv d2">A collection of small composable libraries sharing one philosophy: no heap, no dependencies, no code generation.</p>
-    <p class="rv d3" style="margin-top:18px"><a class="btn btn-ghost" href="projects/micro-toolkit.html" style="padding:11px 20px;font-size:13px">micro-toolkit detail page →</a></p>
+    <p class="rv d3" style="margin-top:18px"><a class="btn btn-ghost" href="projects/micro-toolkit.html" style="padding:11px 20px;font-size:13px">micro-toolkit detail page -&gt;</a></p>
 
     <div class="mod-grid">
       <a class="mod rv" href="https://github.com/Vanderhell/microsh" target="_blank" rel="noopener"><h4>microsh</h4><p>Debug shell with history and tab completion</p></a>
@@ -442,13 +460,13 @@ footer a:hover{text-decoration:underline}
       <a class="mod rv d2" href="https://github.com/Vanderhell/microconf" target="_blank" rel="noopener"><h4>microconf</h4><p>Schema-driven config with CRC and flash storage</p></a>
       <a class="mod rv" href="https://github.com/Vanderhell/microcbor" target="_blank" rel="noopener"><h4>microcbor</h4><p>Minimal CBOR encoder / decoder</p></a>
       <a class="mod rv d1" href="https://github.com/Vanderhell/micoring" target="_blank" rel="noopener"><h4>micoring</h4><p>Generic lock-free SPSC ring buffer</p></a>
-      <a class="mod rv d2" href="https://github.com/Vanderhell/microtimer" target="_blank" rel="noopener"><h4>microtimer</h4><p>Software timers — one-shot and periodic</p></a>
+      <a class="mod rv d2" href="https://github.com/Vanderhell/microtimer" target="_blank" rel="noopener"><h4>microtimer</h4><p>Software timers - one-shot and periodic</p></a>
       <a class="mod rv d2" href="https://github.com/Vanderhell/microbus" target="_blank" rel="noopener"><h4>microbus</h4><p>Topic-based event / pub-sub bus</p></a>
       <a class="mod rv d3" href="https://github.com/Vanderhell/iotspool" target="_blank" rel="noopener"><h4>iotspool</h4><p>Persistent store-and-forward MQTT queue</p></a>
     </div>
 
     <div style="margin-top:60px" class="rv">
-      <div class="eyebrow">embedded-guard — safety, monitoring &amp; recovery</div>
+      <div class="eyebrow">embedded-guard - safety, monitoring &amp; recovery</div>
       <div class="mod-grid guard-grid">
         <a class="mod" href="https://github.com/Vanderhell/microhealth" target="_blank" rel="noopener"><h4>microhealth</h4><p>Runtime health monitor with metrics and threshold-based alerts</p></a>
         <a class="mod" href="https://github.com/Vanderhell/microwdt" target="_blank" rel="noopener"><h4>microwdt</h4><p>Per-task software watchdog with escalation states</p></a>
@@ -461,7 +479,6 @@ footer a:hover{text-decoration:underline}
   </div>
 </section>
 
-<!-- ================= MORE WORK ================= -->
 <section id="work" style="background:var(--frost);border-top:2px solid var(--line)">
   <div class="wrap">
     <div class="eyebrow rv">More work</div>
@@ -471,7 +488,7 @@ footer a:hover{text-decoration:underline}
       <div class="col rv">
         <h3>Bare-metal safety &amp; diagnostics</h3>
         <ul>
-          <li><a href="https://github.com/Vanderhell/panicdump" target="_blank" rel="noopener">panicdump</a><small>Crash dumps for Cortex-M3/M4 — capture on fault, decode offline</small></li>
+          <li><a href="https://github.com/Vanderhell/panicdump" target="_blank" rel="noopener">panicdump</a><small>Crash dumps for Cortex-M3/M4 - capture on fault, decode offline</small></li>
           <li><a href="https://github.com/Vanderhell/MCU-Malloc-Tracker" target="_blank" rel="noopener">MCU-Malloc-Tracker</a><small>Deterministic heap diagnostics for bare-metal MCUs</small></li>
           <li><a href="https://github.com/Vanderhell/nvlog" target="_blank" rel="noopener">nvlog</a><small>Power-loss safe append log for FRAM / EEPROM / NOR flash</small></li>
           <li><a href="https://github.com/Vanderhell/defer" target="_blank" rel="noopener">defer</a><small>Automatic resource cleanup for C via DEFER() macro</small></li>
@@ -486,7 +503,7 @@ footer a:hover{text-decoration:underline}
         <h3>Industrial IoT &amp; protocols</h3>
         <ul>
           <li><a href="https://github.com/Vanderhell/IOBusMonitor" target="_blank" rel="noopener">IOBusMonitor</a><small>Multi-protocol desktop tool for Modbus TCP/RTU and Siemens S7 PLCs (C#)</small></li>
-          <li><a href="https://github.com/Vanderhell/RTULogSuite" target="_blank" rel="noopener">RTULogSuite</a><small>Modbus RTU logging toolchain — ESP32 firmware + Windows visualization</small></li>
+          <li><a href="https://github.com/Vanderhell/RTULogSuite" target="_blank" rel="noopener">RTULogSuite</a><small>Modbus RTU logging toolchain - ESP32 firmware + Windows visualization</small></li>
           <li><a href="https://github.com/Vanderhell/uMesh" target="_blank" rel="noopener">uMesh</a><small>Lightweight mesh networking stack for ESP32 over raw 802.11</small></li>
           <li><a href="https://github.com/Vanderhell/num8-lup" target="_blank" rel="noopener">num8-lup</a><small>Low-bandwidth update propagation protocol for constrained links</small></li>
           <li><a href="https://github.com/Vanderhell/num8" target="_blank" rel="noopener">num8</a><small>O(1) membership engine for 8-digit numbers using a fixed bitset</small></li>
@@ -506,12 +523,11 @@ footer a:hover{text-decoration:underline}
   </div>
 </section>
 
-<!-- ================= COLLAB ================= -->
 <section class="collab" id="collab">
   <div class="wrap">
     <div class="eyebrow rv" style="color:var(--lox)">Collaboration</div>
     <h2 class="rv d1">Working with firmware, MCUs<br>or industrial devices?</h2>
-    <p class="sub rv d2">I'm looking for collaborators to help with testing, hardware validation, examples, documentation review, and real-world feedback on embedded C projects.</p>
+    <p class="sub rv d2">Contact Peter Hajduch directly for embedded C testing, MCU validation, industrial and edge systems, storage and power-loss behavior, reliability and diagnostics, or C#/.NET and host-side tooling where relevant.</p>
     <div class="tags rv d3">
       <span>embedded C testing</span>
       <span>MCU hardware validation</span>
@@ -521,14 +537,14 @@ footer a:hover{text-decoration:underline}
       <span>examples &amp; integration feedback</span>
     </div>
     <div class="cta-row rv d4" style="display:flex;gap:14px;flex-wrap:wrap">
-      <a class="btn btn-solid" href="mailto:Vanderhell@gmail.com?subject=LOX%20%E2%80%94%20collaboration">Email me — Vanderhell@gmail.com</a>
+      <a class="btn btn-solid" href="mailto:Vanderhell@gmail.com?subject=Peter%20Hajduch%20%E2%80%94%20collaboration">Email Peter Hajduch - Vanderhell@gmail.com</a>
       <a class="btn btn-ghost" style="background:transparent;color:var(--ice);border-color:rgba(238,245,248,.5)" href="https://github.com/Vanderhell" target="_blank" rel="noopener">Reach out on GitHub</a>
     </div>
     <div class="rv d4" style="margin-top:46px;border:1px solid rgba(238,245,248,.25);padding:26px 28px;max-width:760px">
-      <p style="font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--pro);margin-bottom:10px">♥ Support the projects</p>
-      <p style="color:#9DBCC9;font-size:15px;margin-bottom:18px">If the LOX family or micro-toolkit saves you time in a real product, you can support continued development — sponsorship helps cover hardware for validation and testing.</p>
+      <p style="font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--pro);margin-bottom:10px">Support the projects</p>
+      <p style="color:#9DBCC9;font-size:15px;margin-bottom:18px">If the LOX family or micro-toolkit saves you time in a real project, you can support continued development by getting in touch. That helps cover hardware for validation and testing.</p>
       <div style="display:flex;gap:12px;flex-wrap:wrap">
-        <a class="btn btn-ghost" style="background:transparent;color:var(--ice);border-color:rgba(238,245,248,.5)" href="mailto:Vanderhell@gmail.com?subject=LOX%20%E2%80%94%20sponsorship">Sponsorship by email</a>
+        <a class="btn btn-ghost" style="background:transparent;color:var(--ice);border-color:rgba(238,245,248,.5)" href="mailto:Vanderhell@gmail.com?subject=Peter%20Hajduch%20%E2%80%94%20support">Support by email</a>
       </div>
     </div>
   </div>
@@ -536,43 +552,46 @@ footer a:hover{text-decoration:underline}
 
 <footer>
   <div class="wrap">
-    <p style="display:flex;align-items:center;gap:14px">
-      <img src="lox-mark-dark.svg" alt="LOX" style="height:22px;width:auto">
-      © <span id="yr"></span> Vanderhell — small code, clear contracts, real tests, and no claims without evidence.
+    <p>
+      &copy; <span id="yr"></span> Peter Hajduch / Vanderhell<br>
+      LOX - Liquid Oxygen is my embedded systems project family.
     </p>
-    <p><a href="mailto:Vanderhell@gmail.com">Vanderhell@gmail.com</a> · <a href="https://github.com/Vanderhell" target="_blank" rel="noopener">github.com/Vanderhell ↗</a></p>
+    <p><a href="mailto:Vanderhell@gmail.com">Vanderhell@gmail.com</a> &middot; <a href="https://github.com/Vanderhell" target="_blank" rel="noopener">github.com/Vanderhell</a></p>
   </div>
 </footer>
 
 <script>
-/* ---- scroll progress ---- */
 const prog=document.getElementById('progress');
 addEventListener('scroll',()=>{
   const h=document.documentElement;
   prog.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';
 },{passive:true});
 
-/* ---- reveal on scroll ---- */
 const io=new IntersectionObserver(es=>{
   es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
 },{threshold:.12});
 document.querySelectorAll('.rv').forEach(el=>io.observe(el));
 
-/* ---- duplicate marquee for seamless loop ---- */
 const mq=document.getElementById('mq');
 mq.innerHTML+=mq.innerHTML;
 
-/* ---- terminal boot typing ---- */
 const lines=[
-  ['$ lox_init(&db, ram_budget);',''],
-  ['[ <ok>OK</ok> ] one allocation · fixed RAM budget',''],
-  ['[ <ok>OK</ok> ] <key>kv</key> + <key>time-series</key> + <key>tables</key> online',''],
-  ['$ loxguard_enter(GUARD_PARSER);',''],
-  ['[ <ok>OK</ok> ] guard block armed · blackbox ready',''],
-  ['$ loxbudget_check(OP_MQTT_PUBLISH);',''],
-  ['[ <ok>ALLOW</ok> ] budget ok · rate window clear',''],
+  ['$ whoami',''],
+  ['Peter Hajduch / Vanderhell',''],
+  ['$ focus --list',''],
+  ['embedded systems',''],
+  ['industrial software',''],
+  ['firmware infrastructure',''],
+  ['reliability and diagnostics',''],
+  ['developer tools',''],
+  ['$ stack --primary',''],
+  ['C &middot; C++ &middot; C#/.NET &middot; embedded C99',''],
   ['',''],
-  ['<key>// zero deps. no heap surprises. tests before claims.</key>','']
+  ['[ OK ] software and hardware integration',''],
+  ['[ OK ] deterministic design',''],
+  ['[ OK ] tests before claims',''],
+  ['',''],
+  ['<key>// focused systems work. practical integration. evidence first.</key>','']
 ];
 const out=document.getElementById('termOut');
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -584,7 +603,6 @@ if(reduced){
     if(li>=lines.length){out.innerHTML=buf+'<span class="cursor"></span>';return;}
     const plain=lines[li][0].replace(/<[^>]+>/g,'');
     if(ci<=plain.length){
-      // rebuild with tags applied progressively: simple approach — type plain, swap to rich at line end
       out.innerHTML=buf+escapeHtml(plain.slice(0,ci))+'<span class="cursor"></span>';
       ci++;
       setTimeout(type,plain.startsWith('$')?34:12);
