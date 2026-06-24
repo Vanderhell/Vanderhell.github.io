@@ -66,6 +66,8 @@ nav{
 .nav-links a:hover{background:var(--ink);color:var(--ice)}
 .nav-links a.gh{border:2px solid var(--line);margin-left:8px}
 .nav-links a.gh:hover{background:var(--lox);color:#fff;border-color:var(--lox)}
+.nav-links a.kofi{border:2px solid #FF5E5B;margin-left:8px;background:#FF5E5B;color:#fff}
+.nav-links a.kofi:hover{background:#fff;color:#FF5E5B;border-color:#FF5E5B}
 #progress{position:absolute;bottom:-2px;left:0;height:2px;background:var(--lox);width:0%;z-index:101}
 
 .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
@@ -113,6 +115,8 @@ h2{font-family:var(--disp);font-weight:800;font-size:clamp(30px,4.5vw,46px);line
 .btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--line)}
 .btn-solid{background:var(--lox);color:#fff;border-color:var(--line)}
 .btn-ghost{background:var(--ice);color:var(--ink)}
+.btn-kofi{background:#FF5E5B;color:#fff;border-color:var(--line)}
+.btn-kofi:hover{background:#fff;color:#FF5E5B;border-color:#FF5E5B}
 
 .term{
   background:var(--ink);color:#BFE9F5;font-family:var(--mono);font-size:13.5px;
@@ -203,7 +207,7 @@ h2{font-family:var(--disp);font-weight:800;font-size:clamp(30px,4.5vw,46px);line
 }
 .marquee-track{display:flex;width:max-content;animation:scroll 30s linear infinite;font-family:var(--mono);font-size:14px;font-weight:500}
 .marquee-track span{padding:0 26px;white-space:nowrap}
-.marquee-track span::after{content:"&middot;";margin-left:52px;opacity:.6}
+.marquee-track span::after{content:"·";margin-left:52px;opacity:.6}
 @keyframes scroll{to{transform:translateX(-50%)}}
 .marquee:hover .marquee-track{animation-play-state:paused}
 
@@ -282,6 +286,7 @@ footer a:hover{text-decoration:underline}
       <a href="#lox">LOX family</a>
       <a href="#work">Projects</a>
       <a href="#collab">Collaborate</a>
+      <a class="kofi" href="https://ko-fi.com/U4Q721ZX4J" target="_blank" rel="noopener">Support on Ko-fi</a>
       <a class="gh" href="https://github.com/Vanderhell" target="_blank" rel="noopener">GitHub</a>
     </div>
   </div>
@@ -297,6 +302,7 @@ footer a:hover{text-decoration:underline}
       <div class="hero-cta rv d3">
         <a class="btn btn-solid" href="#focus">Explore my work</a>
         <a class="btn btn-ghost" href="https://github.com/Vanderhell" target="_blank" rel="noopener">View GitHub</a>
+        <a class="btn btn-kofi" href="https://ko-fi.com/U4Q721ZX4J" target="_blank" rel="noopener">Support on Ko-fi</a>
       </div>
     </div>
     <div class="rv d2">
@@ -542,9 +548,9 @@ footer a:hover{text-decoration:underline}
     </div>
     <div class="rv d4" style="margin-top:46px;border:1px solid rgba(238,245,248,.25);padding:26px 28px;max-width:760px">
       <p style="font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--pro);margin-bottom:10px">Support the projects</p>
-      <p style="color:#9DBCC9;font-size:15px;margin-bottom:18px">If the LOX family or micro-toolkit saves you time in a real project, you can support continued development by getting in touch. That helps cover hardware for validation and testing.</p>
+      <p style="color:#9DBCC9;font-size:15px;margin-bottom:18px">If the LOX family or micro-toolkit saves you time in a real project, you can support continued development through Ko-fi. That helps cover hardware for validation and testing.</p>
       <div style="display:flex;gap:12px;flex-wrap:wrap">
-        <a class="btn btn-ghost" style="background:transparent;color:var(--ice);border-color:rgba(238,245,248,.5)" href="mailto:Vanderhell@gmail.com?subject=Peter%20Hajduch%20%E2%80%94%20support">Support by email</a>
+        <a href="https://ko-fi.com/U4Q721ZX4J" target="_blank" rel="noopener"><img height="36" style="border:0px;height:36px;" src="https://storage.ko-fi.com/cdn/kofi6.png?v=6" border="0" alt="Buy Me a Coffee at ko-fi.com"></a>
       </div>
     </div>
   </div>
@@ -561,16 +567,32 @@ footer a:hover{text-decoration:underline}
 </footer>
 
 <script>
+if(location.protocol==='http:'||location.protocol==='https:'){
+  var kofiScript=document.createElement('script');
+  kofiScript.type='text/javascript';
+  kofiScript.src='https://storage.ko-fi.com/cdn/widget/Widget_2.js';
+  kofiScript.onload=function(){
+    kofiwidget2.init('Support me on Ko-fi', '#72a4f2', 'U4Q721ZX4J');
+    kofiwidget2.draw();
+  };
+  document.head.appendChild(kofiScript);
+}
+
 const prog=document.getElementById('progress');
 addEventListener('scroll',()=>{
   const h=document.documentElement;
   prog.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';
 },{passive:true});
 
-const io=new IntersectionObserver(es=>{
-  es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
-},{threshold:.12});
-document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+const revealItems=document.querySelectorAll('.rv');
+if('IntersectionObserver' in window){
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:.12});
+  revealItems.forEach(el=>io.observe(el));
+}else{
+  revealItems.forEach(el=>el.classList.add('in'));
+}
 
 const mq=document.getElementById('mq');
 mq.innerHTML+=mq.innerHTML;
