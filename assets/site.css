@@ -77,3 +77,12 @@
 @keyframes demo-result{0%{transform:scale(.98);opacity:.35}100%{transform:scale(1);opacity:1}}
 @media(max-width:850px){.hero::after{width:180px;height:180px;right:-70px;top:12%}.meta>div{min-height:auto}.flow{gap:.55rem}.flow span{flex:1 1 135px}}
 @media(prefers-reduced-motion:reduce){.motion-ready .motion-item{opacity:1;transform:none}.flow.flow-active span,.demo.demo-running .demo-output{animation:none!important}}
+
+/* Site identity: portfolio brand rather than a product logo. */
+.brand{min-width:auto;min-height:auto;justify-content:flex-start;border:0;border-radius:0;overflow:visible;padding:.45rem 0}
+.site-title{display:grid;grid-template-columns:auto auto;column-gap:.4rem;align-items:baseline;color:#fff;font:800 1.08rem/1.1 var(--display);letter-spacing:.01em}
+.site-title strong{color:#4dd1ea;font-weight:800}
+.site-title small{grid-column:1/-1;color:#a9cbd4;font:600 .62rem/1.4 var(--mono);letter-spacing:.11em;text-transform:uppercase;margin-top:.18rem}
+.brand:hover .site-title strong{color:#fff}
+.brand:hover .site-title small{color:#69d7eb}
+@media(max-width:540px){.site-title{font-size:.96rem}.site-title small{font-size:.55rem;letter-spacing:.08em}}
