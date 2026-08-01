@@ -19,3 +19,20 @@
 .card .button{background:#086a84;color:#fff;border-color:#043b4a;box-shadow:4px 4px 0 #043b4a}
 .card .button:hover{background:#0fa3c8;color:#fff;transform:translate(-2px,-2px);box-shadow:6px 6px 0 #043b4a}
 .card .button:active{transform:translate(1px,1px);box-shadow:2px 2px 0 #043b4a}
+
+/* Larger product navigation with a CSS-native oxygen mark. */
+.nav{min-height:82px;gap:1.5rem}
+.brand{min-width:54px;min-height:54px;justify-content:center;border:2px solid #67d8ef;border-radius:50%;position:relative;overflow:visible}
+.brand img{display:none}
+.nav-symbol{display:block;width:26px;height:26px;border:4px solid #fff;border-radius:50%;position:relative;animation:nav-breathe 3.2s ease-in-out infinite}
+.nav-symbol::before,.nav-symbol::after{content:"";position:absolute;border-radius:50%;background:#2fbbd8;box-shadow:0 0 0 2px #07141b}
+.nav-symbol::before{width:9px;height:9px;right:-8px;top:-7px;animation:nav-orbit 3.2s ease-in-out infinite}
+.nav-symbol::after{width:5px;height:5px;left:-8px;bottom:-3px;animation:nav-orbit 3.2s ease-in-out infinite reverse}
+.nav-links{gap:.35rem}
+.nav-links a{font-size:.9rem;padding:1rem .95rem;position:relative;letter-spacing:.015em}
+.nav-links a::after{content:"";position:absolute;left:.95rem;right:.95rem;bottom:.55rem;height:3px;background:#fff;transform:scaleX(0);transform-origin:left;transition:transform .2s ease}
+.nav-links a:hover::after,.nav-links a[aria-current]::after{transform:scaleX(1)}
+.nav-links a:hover,.nav-links a[aria-current]{box-shadow:inset 0 -3px 0 #fff}
+@keyframes nav-breathe{0%,100%{transform:scale(.92);filter:drop-shadow(0 0 0 rgba(47,187,216,0))}50%{transform:scale(1.06);filter:drop-shadow(0 0 7px rgba(47,187,216,.8))}}
+@keyframes nav-orbit{0%,100%{transform:translate(0,0)}50%{transform:translate(2px,-3px)}}
+@media(max-width:850px){.nav{min-height:76px}.brand{min-width:48px;min-height:48px}.nav-links{top:76px;padding:1.1rem;animation:nav-open .2s ease-out}.nav-links a{font-size:1rem;padding:1rem 1.1rem}.nav-toggle{font-size:.9rem;padding:.75rem 1rem}@keyframes nav-open{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}}
