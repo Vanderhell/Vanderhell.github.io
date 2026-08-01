@@ -121,3 +121,11 @@
 .site-header .nav-links a{padding:.85rem .9rem}
 @media(max-width:900px){.home-hero-grid{grid-template-columns:1fr;gap:2rem}.home-hero-copy{border-left:0;border-top:2px solid #2fbbd8;padding:1.5rem 0 0}.home-hero h1{font-size:clamp(4.8rem,20vw,7rem)}}
 @media(max-width:540px){.home-hero{padding:3.5rem 0 3rem}.home-hero .actions{display:grid}.home-hero .button{text-align:center}.hero-scope{gap:.35rem}.hero-scope span{flex:1;text-align:center}}
+
+/* High-contrast local navigation on every project page. */
+.side.panel{background:#0b3a49;color:#f5fcfe;border-color:#39c4df;box-shadow:6px 6px 0 #043b4a}
+.side.panel>strong{display:block;color:#fff;font:800 1.05rem var(--display);padding-bottom:.75rem;border-bottom:1px solid #568696}
+.side.panel a{color:#bff4ff;padding:.72rem .65rem;margin:.15rem -.65rem;font-weight:700;text-decoration:none;border-left:3px solid transparent}
+.side.panel a:hover,.side.panel a:focus-visible{background:#55d1e8;color:#061820;border-left-color:#fff}
+.side.panel hr{border:0;border-top:1px solid #568696;margin:1rem 0}
+.side.panel small{color:#c1d8df}
