@@ -129,3 +129,13 @@
 .side.panel a:hover,.side.panel a:focus-visible{background:#55d1e8;color:#061820;border-left-color:#fff}
 .side.panel hr{border:0;border-top:1px solid #568696;margin:1rem 0}
 .side.panel small{color:#c1d8df}
+
+/* Sticky project breadcrumb below the primary navigation. */
+.crumb-shell{position:sticky;top:74px;z-index:45;background:#102d39;border-bottom:2px solid #2fbbd8;box-shadow:0 5px 14px rgba(4,16,22,.22)}
+.crumb-bar{margin:0;padding:.7rem 0;display:flex;align-items:center;gap:.55rem;color:#f5fcfe;white-space:nowrap;overflow-x:auto;scrollbar-width:thin;scrollbar-color:#55d1e8 #102d39}
+.crumb-bar a{color:#9eeaf7;padding:.2rem .35rem;text-decoration:none;font-weight:700;border-bottom:2px solid transparent}
+.crumb-bar a:hover,.crumb-bar a:focus-visible{color:#fff;border-bottom-color:#55d1e8}
+.crumb-bar a:first-child::before{content:"⌂";margin-right:.4rem;color:#55d1e8;font-size:1rem}
+.crumb-bar::after{content:"Current project";margin-left:auto;padding:.2rem .55rem;border:1px solid #487582;color:#b9d8df;font:600 .62rem var(--mono);letter-spacing:.08em;text-transform:uppercase}
+.product-hero{padding-top:clamp(4rem,7vw,6rem)}
+@media(max-width:850px){.crumb-shell{top:76px}.crumb-bar{font-size:.76rem}.crumb-bar::after{display:none}}
