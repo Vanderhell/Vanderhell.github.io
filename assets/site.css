@@ -14,3 +14,8 @@
 .nav-links a:hover,.nav-links a[aria-current]{background:#19a9c8;color:#041016}
 .nav-toggle{background:#19a9c8;color:#041016;border:2px solid #fff}
 @media(max-width:850px){.nav-links{background:#07141b;border-bottom-color:#2fbbd8}.nav-links a{border-bottom:1px solid #29434f}}
+
+/* Product-card actions must remain visually distinct from their cards. */
+.card .button{background:#086a84;color:#fff;border-color:#043b4a;box-shadow:4px 4px 0 #043b4a}
+.card .button:hover{background:#0fa3c8;color:#fff;transform:translate(-2px,-2px);box-shadow:6px 6px 0 #043b4a}
+.card .button:active{transform:translate(1px,1px);box-shadow:2px 2px 0 #043b4a}
