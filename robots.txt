@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://vanderhell.github.io/sitemap.xml
