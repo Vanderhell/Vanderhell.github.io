@@ -16,7 +16,7 @@
 
 (function(){
   const explorer=document.querySelector('[data-explorer]');
-  if(explorer){const buttons=[...explorer.querySelectorAll('[data-need]')],results=[...explorer.querySelectorAll('[data-needs]')];const select=button=>{const need=button.dataset.need;buttons.forEach(b=>b.setAttribute('aria-pressed',String(b===button)));results.forEach(card=>{const match=card.dataset.needs.split(' ').includes(need);card.hidden=!match;card.classList.toggle('is-match',match)})};buttons.forEach(button=>button.addEventListener('click',()=>select(button)));select(buttons[0])}
+  if(explorer){const buttons=[...explorer.querySelectorAll('[data-need]')],results=[...explorer.querySelectorAll('[data-needs]')],title=explorer.querySelector('[data-recommendation-title]');const select=button=>{const need=button.dataset.need;buttons.forEach(b=>b.setAttribute('aria-pressed',String(b===button)));results.forEach(card=>{const match=card.dataset.needs.split(' ').includes(need);card.hidden=!match;card.classList.toggle('is-match',match)});if(title)title.textContent=`Recommended projects for ${button.dataset.needLabel}`};buttons.forEach((button,index)=>{button.addEventListener('click',()=>select(button));button.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();const next=event.key==='Home'?0:event.key==='End'?buttons.length-1:(index+(event.key==='ArrowRight'?1:-1)+buttons.length)%buttons.length;buttons[next].focus();select(buttons[next])})});select(buttons.find(button=>button.getAttribute('aria-pressed')==='true')||buttons[0])}
   document.querySelectorAll('.product-experience').forEach(box=>{const run=()=>{const steps=[...box.querySelectorAll('span')];steps.forEach(step=>step.classList.remove('active'));steps.forEach((step,index)=>setTimeout(()=>step.classList.add('active'),index*320))};box.addEventListener('mouseenter',run);box.addEventListener('focus',run);box.addEventListener('click',run)});
 })();
 
@@ -24,7 +24,7 @@
   if(!location.pathname.toLowerCase().includes('/projects/'))return;
   const slug=document.body.dataset.project||'';
   const micro=['microfsm','microres','microconf','microlog','microsh','microcbor','micoring','microtimer','microbus','micro-toolkit'];
-  const target=slug.startsWith('lox')?'lox-family.html':micro.includes(slug)?'micro-toolkit.html':'all-projects.html';
+  const target=slug.startsWith('lox')?'lox-family.html':micro.includes(slug)?'micro-toolkit.html':'beyond-lox.html';
   document.querySelectorAll('.nav-links a').forEach(link=>{link.removeAttribute('aria-current');if(link.getAttribute('href')?.endsWith(target))link.setAttribute('aria-current','page')});
 })();
 
