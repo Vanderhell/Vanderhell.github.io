@@ -167,6 +167,19 @@
 @media(prefers-color-scheme:dark){.recommendation-block{background:rgba(7,20,27,.35)}.explorer-results a small{color:#aac3cd}}
 @media(prefers-reduced-motion:reduce){.explorer-results a.is-match{animation:none}}
 
+pre a{color:#edf7fa}
+
+.section h2{font:800 clamp(1rem,5vw,3.3rem)/1.05 var(--display);margin:0 0 1rem}
+.recommendation-context{margin:-.55rem 0 1rem;color:var(--muted);font:700 .72rem var(--mono)}
+.explorer-results{grid-template-columns:repeat(2,minmax(0,1fr))}
+.explorer-results a{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:1.25rem;min-height:112px}
+.explorer-results .result-copy{display:grid;gap:.4rem;min-width:0;font:inherit}
+.explorer-results .result-copy strong{display:block;margin:0;font:800 1.08rem/1.2 var(--display)}
+.explorer-results .result-copy small{display:block;margin:0;color:#49616e;font:400 .82rem/1.45 var(--sans)}
+.explorer-results a>em{white-space:nowrap;align-self:center}
+@media(max-width:700px){.explorer-results{grid-template-columns:1fr}.explorer-results a{grid-template-columns:1fr;gap:.8rem}.explorer-results a>em{justify-self:start}}
+@media(prefers-color-scheme:dark){.explorer-results .result-copy small{color:#aac3cd}}
+
 /* Compact home hero: product name first, detail moves into the problem map. */
 .home-hero{padding:4.5rem 0 4rem;min-height:0}
 .home-hero-grid{display:grid;grid-template-columns:minmax(320px,.85fr) minmax(420px,1.15fr);gap:clamp(2rem,6vw,5.5rem);align-items:center}
