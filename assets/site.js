@@ -14,6 +14,24 @@
   const map=document.querySelector('[data-problem-map]');if(map){document.documentElement.classList.add('map-ready');const nodes=[...map.querySelectorAll('[data-map-target]')],panels=[...document.querySelectorAll('[data-map-panel]')];const open=node=>{const id=node.dataset.mapTarget;nodes.forEach(n=>n.setAttribute('aria-expanded',String(n===node)));panels.forEach(p=>p.hidden=p.dataset.mapPanel!==id);track('problem_map_open',{problem:id})};nodes.forEach((node,index)=>{node.addEventListener('click',()=>open(node));node.addEventListener('keydown',e=>{if(!['ArrowRight','ArrowDown','ArrowLeft','ArrowUp','Home','End'].includes(e.key))return;e.preventDefault();let next=index;if(e.key==='Home')next=0;else if(e.key==='End')next=nodes.length-1;else next=(index+(e.key==='ArrowRight'||e.key==='ArrowDown'?1:-1)+nodes.length)%nodes.length;nodes[next].focus()})});open(nodes[0])}
 })();
 
+// Keep arrow-key navigation inside the currently open problem domain.
+(function(){
+  const explorer=document.querySelector('[data-explorer]');
+  if(!explorer)return;
+  explorer.addEventListener('keydown',event=>{
+    const current=event.target.closest('.domain-problems [data-need]');
+    if(!current||!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End'].includes(event.key))return;
+    const buttons=[...current.closest('.domain-problems').querySelectorAll('[data-need]')];
+    const index=buttons.indexOf(current),forward=event.key==='ArrowRight'||event.key==='ArrowDown';
+    const next=event.key==='Home'?0:event.key==='End'?buttons.length-1:(index+(forward?1:-1)+buttons.length)%buttons.length;
+    event.preventDefault();event.stopImmediatePropagation();buttons[next].focus();buttons[next].click();
+  },true);
+  const domains=[...explorer.querySelectorAll('.problem-domain')];
+  domains.forEach(domain=>domain.addEventListener('toggle',()=>{
+    if(domain.open)domains.forEach(other=>{if(other!==domain)other.open=false});
+  }));
+})();
+
 (function(){
   const explorer=document.querySelector('[data-explorer]');
   if(explorer){const buttons=[...explorer.querySelectorAll('[data-need]')],results=[...explorer.querySelectorAll('[data-needs]')],context=explorer.querySelector('[data-recommendation-context]');const select=button=>{if(!button)return;const need=button.dataset.need;buttons.forEach(item=>item.setAttribute('aria-pressed',String(item===button)));let shown=0;results.forEach(card=>{const match=need==='all'||(card.dataset.needs||'').split(/\s+/).includes(need);card.hidden=!match;card.classList.toggle('is-match',match);if(match)shown++});if(context)context.textContent=`For: ${button.dataset.needLabel} · ${shown} ${shown===1?'project':'projects'}`;explorer.dataset.activeNeed=need};explorer.addEventListener('click',event=>{const button=event.target.closest('[data-need]');if(button&&explorer.contains(button))select(button)});explorer.addEventListener('keydown',event=>{const button=event.target.closest('[data-need]');if(!button||!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End'].includes(event.key))return;event.preventDefault();const index=buttons.indexOf(button),forward=event.key==='ArrowRight'||event.key==='ArrowDown';const next=event.key==='Home'?0:event.key==='End'?buttons.length-1:(index+(forward?1:-1)+buttons.length)%buttons.length;buttons[next].focus();select(buttons[next])});select(buttons.find(button=>button.getAttribute('aria-pressed')==='true')||buttons[0])}
