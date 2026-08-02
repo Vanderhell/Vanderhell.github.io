@@ -15,6 +15,20 @@
 })();
 
 (function(){
+  const explorer=document.querySelector('[data-explorer]');
+  if(explorer){const buttons=[...explorer.querySelectorAll('[data-need]')],results=[...explorer.querySelectorAll('[data-needs]')];const select=button=>{const need=button.dataset.need;buttons.forEach(b=>b.setAttribute('aria-pressed',String(b===button)));results.forEach(card=>{const match=card.dataset.needs.split(' ').includes(need);card.hidden=!match;card.classList.toggle('is-match',match)})};buttons.forEach(button=>button.addEventListener('click',()=>select(button)));select(buttons[0])}
+  document.querySelectorAll('.product-experience').forEach(box=>{const run=()=>{const steps=[...box.querySelectorAll('span')];steps.forEach(step=>step.classList.remove('active'));steps.forEach((step,index)=>setTimeout(()=>step.classList.add('active'),index*320))};box.addEventListener('mouseenter',run);box.addEventListener('focus',run);box.addEventListener('click',run)});
+})();
+
+(function(){
+  if(!location.pathname.toLowerCase().includes('/projects/'))return;
+  const slug=document.body.dataset.project||'';
+  const micro=['microfsm','microres','microconf','microlog','microsh','microcbor','micoring','microtimer','microbus','micro-toolkit'];
+  const target=slug.startsWith('lox')?'lox-family.html':micro.includes(slug)?'micro-toolkit.html':'all-projects.html';
+  document.querySelectorAll('.nav-links a').forEach(link=>{link.removeAttribute('aria-current');if(link.getAttribute('href')?.endsWith(target))link.setAttribute('aria-current','page')});
+})();
+
+(function(){
   const resourceDemo=document.querySelector('[data-resource-demo]');
   if(resourceDemo){const inputs=[...resourceDemo.querySelectorAll('[data-resource]')],decision=resourceDemo.querySelector('.decision-panel');const update=()=>{const values=Object.fromEntries(inputs.map(input=>[input.dataset.resource,Number(input.value)]));inputs.forEach(input=>input.parentElement.querySelector('output').textContent=`${input.value}%`);let state='ALLOW_FULL',reason='All configured resource thresholds are safe.';if(values.energy<20){state='DEFER';reason='Energy reserve is below the configured threshold.'}else if(values.flash<15||values.ram>92){state='DENY';reason=values.flash<15?'Flash-write budget is exhausted.':'RAM pressure exceeds the hard limit.'}else if(values.energy<40||values.flash<35||values.ram>72){state='ALLOW_DEGRADED';reason='Use the reduced resource profile.'}decision.querySelector('strong').textContent=state;decision.querySelector('small').textContent=reason;decision.dataset.state=state.toLowerCase();};inputs.forEach(input=>input.addEventListener('input',update));update()}
   const walDemo=document.querySelector('[data-wal-demo]');
