@@ -1,4 +1,17 @@
 (function(){
+  // Catalogue search stays independent of the other page enhancements. It uses
+  // inline display as well as `hidden`, so it works with every card layout.
+  const input=document.getElementById('project-search');
+  if(input){
+    const cards=[...document.querySelectorAll('[data-project-card]')];
+    const empty=document.querySelector('.empty');
+    const applySearch=()=>{const query=input.value.trim().toLocaleLowerCase();let matches=0;cards.forEach(card=>{const show=!query||card.textContent.toLocaleLowerCase().includes(query);card.hidden=!show;card.style.display=show?'':'none';if(show)matches++});if(empty){empty.hidden=matches!==0;empty.style.display=matches?'none':''}};
+    ['input','search','keyup'].forEach(event=>input.addEventListener(event,applySearch));
+    applySearch();
+  }
+})();
+
+(function(){
   const toggle=document.querySelector('.nav-toggle'), links=document.querySelector('.nav-links');
   if(toggle&&links){toggle.addEventListener('click',()=>{const open=links.classList.toggle('open');toggle.setAttribute('aria-expanded',String(open));});links.addEventListener('click',()=>{links.classList.remove('open');toggle.setAttribute('aria-expanded','false')});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&links.classList.contains('open')){links.classList.remove('open');toggle.setAttribute('aria-expanded','false');toggle.focus()}})}
   const path=location.pathname.toLowerCase(), navItems=[...document.querySelectorAll('.nav-links a')];
