@@ -15,7 +15,7 @@
   const toggle=document.querySelector('.nav-toggle'), links=document.querySelector('.nav-links');
   if(toggle&&links){toggle.addEventListener('click',()=>{const open=links.classList.toggle('open');toggle.setAttribute('aria-expanded',String(open));});links.addEventListener('click',()=>{links.classList.remove('open');toggle.setAttribute('aria-expanded','false')});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&links.classList.contains('open')){links.classList.remove('open');toggle.setAttribute('aria-expanded','false');toggle.focus()}})}
   const path=location.pathname.toLowerCase(), navItems=[...document.querySelectorAll('.nav-links a')];
-  if(path.includes('/projects/')){navItems.forEach(a=>a.removeAttribute('aria-current'));const slug=document.body.dataset.project||'';const target=slug.startsWith('lox')?'#projects':(['microfsm','microres','microconf','microlog','microsh','microcbor','micoring','microtimer','microbus','micro-toolkit'].includes(slug)?'#toolkit':'#other');navItems.find(a=>a.getAttribute('href')?.includes(target))?.setAttribute('aria-current','page')}
+  if(path.includes('/projects/')){navItems.forEach(a=>a.removeAttribute('aria-current'));const slug=document.body.dataset.project||'';const target=slug.startsWith('lox')?'#projects':(/^micro/i.test(slug)?'#toolkit':'#other');navItems.find(a=>a.getAttribute('href')?.includes(target))?.setAttribute('aria-current','page')}
   document.querySelectorAll('pre code').forEach(code=>{const wrap=code.parentElement.parentElement;if(!wrap.classList.contains('code-wrap'))return;const b=document.createElement('button');b.className='copy';b.type='button';b.textContent='Copy';b.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(code.textContent);b.textContent='Copied';track('copy_code',{project:document.body.dataset.project||'home'});setTimeout(()=>b.textContent='Copy',1500)}catch(e){b.textContent='Select text'}});wrap.appendChild(b)});
   const search=document.querySelector('#project-search'), selects=[...document.querySelectorAll('[data-filter]')], cards=[...document.querySelectorAll('[data-project-card]')], empty=document.querySelector('.empty');
   function filter(){const q=(search?.value||'').toLowerCase();let shown=0;cards.forEach(c=>{const ok=(!q||c.textContent.toLowerCase().includes(q))&&selects.every(s=>!s.value||(c.dataset[s.dataset.filter]||'').split(' ').includes(s.value));c.hidden=!ok;if(ok)shown++});if(empty)empty.style.display=shown?'none':'block'}
@@ -54,8 +54,7 @@
 (function(){
   if(!location.pathname.toLowerCase().includes('/projects/'))return;
   const slug=document.body.dataset.project||'';
-  const micro=['microfsm','microres','microconf','microlog','microsh','microcbor','micoring','microtimer','microbus','micro-toolkit'];
-  const target=slug.startsWith('lox')?'lox-family.html':micro.includes(slug)?'micro-toolkit.html':'beyond-lox.html';
+  const target=slug.startsWith('lox')?'lox-family.html':/^micro/i.test(slug)?'micro-toolkit.html':'beyond-lox.html';
   document.querySelectorAll('.nav-links a').forEach(link=>{link.removeAttribute('aria-current');if(link.getAttribute('href')?.endsWith(target))link.setAttribute('aria-current','page')});
 })();
 
@@ -64,4 +63,82 @@
   if(resourceDemo){const inputs=[...resourceDemo.querySelectorAll('[data-resource]')],decision=resourceDemo.querySelector('.decision-panel');const update=()=>{const values=Object.fromEntries(inputs.map(input=>[input.dataset.resource,Number(input.value)]));inputs.forEach(input=>input.parentElement.querySelector('output').textContent=`${input.value}%`);let state='ALLOW_FULL',reason='All configured resource thresholds are safe.';if(values.energy<20){state='DEFER';reason='Energy reserve is below the configured threshold.'}else if(values.flash<15||values.ram>92){state='DENY';reason=values.flash<15?'Flash-write budget is exhausted.':'RAM pressure exceeds the hard limit.'}else if(values.energy<40||values.flash<35||values.ram>72){state='ALLOW_DEGRADED';reason='Use the reduced resource profile.'}decision.querySelector('strong').textContent=state;decision.querySelector('small').textContent=reason;decision.dataset.state=state.toLowerCase();};inputs.forEach(input=>input.addEventListener('input',update));update()}
   const walDemo=document.querySelector('[data-wal-demo]');
   if(walDemo){const steps=[...walDemo.querySelectorAll('.wal-track span')],panel=walDemo.querySelector('.decision-panel'),button=walDemo.querySelector('[data-wal-run]');button.addEventListener('click',()=>{steps.forEach(s=>s.classList.remove('active','done'));let index=0;panel.querySelector('strong').textContent='WRITING';panel.querySelector('small').textContent='The record write has started.';const advance=()=>{if(index>0){steps[index-1].classList.remove('active');steps[index-1].classList.add('done')}if(index<steps.length){steps[index].classList.add('active');panel.querySelector('strong').textContent=['WRITING','POWER LOST','REOPENING','REPLAYING','RESTORED'][index];panel.querySelector('small').textContent=['Record data enters the documented write flow.','Commit is interrupted before completion.','The database opens after restart.','Valid WAL state is evaluated during recovery.','The last committed record is available again.'][index];index++;setTimeout(advance,550)}else button.disabled=false};button.disabled=true;advance()})}
+})();
+
+// Lightweight editorial motion: decorative only, with full reduced-motion
+// support and no dependency on animation for accessing content.
+(function(){
+  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const typewriter=document.querySelector('[data-typewriter]');
+  if(typewriter&&!reduced){
+    const copy=typewriter.textContent;
+    typewriter.textContent='';
+    typewriter.classList.add('is-typing');
+    let index=0;
+    const tick=()=>{typewriter.textContent=copy.slice(0,++index);if(index<copy.length)setTimeout(tick,index<10?34:22);else typewriter.classList.remove('is-typing')};
+    setTimeout(tick,220);
+  }
+  const lively=[...document.querySelectorAll('.area,.portfolio-card,.families > a,.section-heading')];
+  if(!reduced&&'IntersectionObserver' in window){
+    document.body.classList.add('lively-ready');
+    const reveal=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('lively-in');reveal.unobserve(entry.target)}}),{threshold:.12,rootMargin:'0px 0px -35px'});
+    lively.forEach((item,index)=>{item.style.setProperty('--reveal-order',index%6);reveal.observe(item)});
+  }
+  document.querySelectorAll('.area,.portfolio-card,.families > a').forEach(card=>card.addEventListener('pointermove',event=>{
+    const box=card.getBoundingClientRect();
+    card.style.setProperty('--pointer-x',`${event.clientX-box.left}px`);
+    card.style.setProperty('--pointer-y',`${event.clientY-box.top}px`);
+  }));
+})();
+
+(function(){
+  const meter=document.createElement('div');
+  meter.className='scroll-meter';meter.setAttribute('aria-hidden','true');document.body.appendChild(meter);
+  let scheduled=false;
+  const update=()=>{const max=document.documentElement.scrollHeight-innerHeight;meter.style.setProperty('--scroll-progress',max>0?String(scrollY/max):'0');scheduled=false};
+  addEventListener('scroll',()=>{if(!scheduled){scheduled=true;requestAnimationFrame(update)}},{passive:true});
+  addEventListener('resize',update,{passive:true});update();
+  document.querySelectorAll('.portfolio-card').forEach(card=>{
+    const mark=document.createElement('span');mark.className='card-circuit';mark.setAttribute('aria-hidden','true');mark.innerHTML='<i></i><i></i><i></i>';
+    card.prepend(mark);
+  });
+})();
+
+(function(){
+  const focus=document.querySelector('[data-hero-focus]');
+  if(focus){
+    const output=focus.querySelector('.focus-output'),buttons=[...focus.querySelectorAll('[data-focus]')];
+    const messages={storage:'Predictable persistence for configuration, telemetry and small structured data.',recovery:'Explicit WAL, boot and restart paths for recovering from interrupted work.',diagnostics:'Bounded evidence, logs, alarms and crash data that explain what happened.',communication:'Small queues, protocols and network components for constrained devices.',control:'Explicit ownership, fixed limits and repeatable decisions in portable C.'};
+    let timer,index=0;
+    const select=button=>{buttons.forEach(item=>item.setAttribute('aria-pressed',String(item===button)));output.classList.remove('focus-changing');void output.offsetWidth;output.textContent=messages[button.dataset.focus];output.classList.add('focus-changing');index=buttons.indexOf(button)};
+    const stop=()=>{if(timer)clearInterval(timer);timer=null};
+    buttons.forEach(button=>button.addEventListener('click',()=>{stop();select(button)}));
+    if(!matchMedia('(prefers-reduced-motion: reduce)').matches)timer=setInterval(()=>select(buttons[index=(index+1)%buttons.length]),4200);
+  }
+  document.querySelectorAll('[data-count]').forEach(counter=>{
+    const target=Number(counter.dataset.count)||0,draw=()=>{const started=performance.now(),duration=650;const tick=now=>{counter.textContent=String(Math.min(target,Math.round(target*((now-started)/duration))));if(now-started<duration)requestAnimationFrame(tick)};requestAnimationFrame(tick)};
+    if('IntersectionObserver' in window){const observer=new IntersectionObserver(entries=>{if(entries.some(entry=>entry.isIntersecting)){draw();observer.disconnect()}},{threshold:.4});observer.observe(counter)}else counter.textContent=String(target);
+  });
+})();
+
+(function(){
+  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const rocket=document.querySelector('[data-rocket-launch]');
+  if(rocket){
+    const launch=()=>{rocket.classList.remove('launched');void rocket.offsetWidth;rocket.classList.add('launched')};
+    rocket.addEventListener('click',launch);
+    if(!reduced)setTimeout(launch,650);
+  }
+  if(!reduced){
+    document.querySelectorAll('.hero').forEach(hero=>hero.addEventListener('pointermove',event=>{
+      const box=hero.getBoundingClientRect();
+      hero.style.setProperty('--hero-x',`${((event.clientX-box.left)/box.width-.5)*12}px`);
+      hero.style.setProperty('--hero-y',`${((event.clientY-box.top)/box.height-.5)*8}px`);
+    }));
+  }
+  document.querySelectorAll('.button').forEach(button=>button.addEventListener('pointerdown',event=>{
+    const ripple=document.createElement('i'),box=button.getBoundingClientRect();
+    ripple.className='button-ripple';ripple.style.left=`${event.clientX-box.left}px`;ripple.style.top=`${event.clientY-box.top}px`;
+    button.appendChild(ripple);ripple.addEventListener('animationend',()=>ripple.remove());
+  }));
 })();
