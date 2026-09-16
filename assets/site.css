@@ -382,3 +382,17 @@ body{background:var(--bg);color:var(--ink)}
 
 /* Navigation uses one underline treatment; avoid the earlier doubled bar. */
 .nav-links a:hover,.nav-links a[aria-current]{box-shadow:none}
+
+/* Axiom module catalog: compact, wrapping cards that retain readable detail. */
+.primitive-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,245px),1fr));gap:1rem;margin:1.5rem 0 3rem}
+.primitive-card{display:flex;flex-direction:column;gap:.4rem;min-width:0;padding:1.15rem;border:2px solid var(--line);background:var(--surface)}
+.primitive-card h3{margin:.25rem 0;font:800 1.05rem var(--mono);overflow-wrap:anywhere}
+.primitive-card p{margin:.2rem 0;color:var(--muted)}
+.primitive-card dl,.primitive-detail dl{display:grid;grid-template-columns:minmax(5rem,.35fr) minmax(0,1fr);gap:.3rem .7rem;margin:.5rem 0 1rem;font-size:.9rem}
+.primitive-card dt,.primitive-detail dt{font:700 .7rem var(--mono);text-transform:uppercase;color:var(--cyan2)}
+.primitive-card dd,.primitive-detail dd{margin:0;overflow-wrap:anywhere}
+.primitive-card>a{margin-top:auto;font-weight:700}
+.primitive-detail{scroll-margin-top:6rem;padding:1.25rem 0;border-top:2px solid var(--line)}
+.primitive-detail h3{font:800 1.3rem var(--display)}
+.primitive-detail code{overflow-wrap:anywhere}
+@media(max-width:540px){.primitive-card dl,.primitive-detail dl{grid-template-columns:1fr;gap:.15rem}.primitive-detail dd{margin-bottom:.55rem}}
