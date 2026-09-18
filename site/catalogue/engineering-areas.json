@@ -1,0 +1,34 @@
+{
+  "storage-persistence": {
+    "label": "Storage & persistence",
+    "products": ["loxdb","loxdb-pro","loxdust","iotspool","microconf","micoring","microflash","num8","nvlog","panicdump"]
+  },
+  "recovery-lifecycle": {
+    "label": "Recovery & lifecycle",
+    "products": ["loxseq","loxboot","loxguard","iotspool","microboot","microota","basalt-net","panicdump"]
+  },
+  "diagnostics": {
+    "label": "Diagnostics",
+    "products": ["loxalarm","loxguard","mcu-malloc-tracker","microlog","microhealth","microassert","microwdt","panicdump"]
+  },
+  "communication": {
+    "label": "Communication",
+    "products": ["microbus","micronet","umesh","num8-lup","nexum"]
+  },
+  "deterministic-control": {
+    "label": "Deterministic control",
+    "products": ["loxbudget","loxseq","loxperm","loxalarm","loxsort","microfsm","microres","microtimer","axiom-one","graygyre","skipspace","implicitnet"]
+  },
+  "runtime-infrastructure": {
+    "label": "Runtime infrastructure",
+    "products": ["basalt-net","nexum","implicitnet","compost","defer","cguard","microres","microbus","microtimer","microwdt"]
+  },
+  "data-formats": {
+    "label": "Data formats",
+    "products": ["ironfamily-fileengine","microcbor","microconf","loxc","num8","nvlog"]
+  },
+  "embedded-utilities": {
+    "label": "Embedded utilities",
+    "products": ["safemath","microassert","microtest","microsh","microcrypt","microdh","micro-toolkit","axiom-one","loxperm","loxsort","microflash"]
+  }
+}

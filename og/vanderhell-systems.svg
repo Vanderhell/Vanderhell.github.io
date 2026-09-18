@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Vanderhell Development</title>
+  <desc id="desc">Systems software for constrained, persistent and failure-prone environments.</desc>
+  <defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#071321"/><stop offset="1" stop-color="#173b59"/></linearGradient><pattern id="grid" width="38" height="38" patternUnits="userSpaceOnUse"><path d="M38 0H0V38" fill="none" stroke="#58d4eb" stroke-opacity=".1"/></pattern></defs>
+  <rect width="1200" height="630" fill="url(#bg)"/><rect width="1200" height="630" fill="url(#grid)"/>
+  <g fill="none" stroke="#58d4eb" stroke-opacity=".55" stroke-width="2"><path d="M820 170 1010 300 820 450 660 300zM820 170V450M660 300H1010M820 170 660 300M820 450 1010 300"/></g>
+  <g fill="#0e2941" stroke="#58d4eb" stroke-width="2"><circle cx="820" cy="170" r="24"/><circle cx="1010" cy="300" r="24"/><circle cx="820" cy="450" r="24"/><circle cx="660" cy="300" r="24"/><circle cx="820" cy="300" r="36"/></g>
+  <g fill="#58d4eb"><circle cx="820" cy="170" r="5"/><circle cx="1010" cy="300" r="5"/><circle cx="820" cy="450" r="5"/><circle cx="660" cy="300" r="5"/><circle cx="820" cy="300" r="7"/></g>
+  <text x="90" y="105" fill="#58d4eb" font-family="monospace" font-size="18" letter-spacing="4">VANDERHELL DEVELOPMENT</text>
+  <text x="86" y="250" fill="#f5f9fc" font-family="Arial,sans-serif" font-size="63" font-weight="700">Systems software</text>
+  <text x="90" y="315" fill="#c2d2df" font-family="Arial,sans-serif" font-size="27">for constrained, persistent and failure-prone environments</text>
+  <text x="90" y="520" fill="#8ea7bb" font-family="monospace" font-size="17">C · C++ · C# · EMBEDDED SYSTEMS</text>
+</svg>

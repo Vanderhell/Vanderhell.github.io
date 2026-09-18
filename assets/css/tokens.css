@@ -1,0 +1,19 @@
+:root {
+  color-scheme: light;
+  --ds-ink: #101d2b;
+  --ds-navy: #071321;
+  --ds-blue: #10263d;
+  --ds-blue-soft: #193955;
+  --ds-cyan: #58d4eb;
+  --ds-ice: #d9f6fb;
+  --ds-steel: #6e7f91;
+  --ds-paper: #f4f7fa;
+  --ds-white: #fff;
+  --ds-line: #d7e0e8;
+  --ds-amber: #b7770c;
+  --ds-mono: "Cascadia Code", "IBM Plex Mono", ui-monospace, monospace;
+  --ds-sans: Inter, "Segoe UI", system-ui, sans-serif;
+  --ds-display: "Arial", "Segoe UI", system-ui, sans-serif;
+  --ds-shadow: 0 22px 64px rgba(2, 13, 28, .16);
+  --ds-content: 74rem;
+}

@@ -16,10 +16,14 @@
   if(toggle&&links){toggle.addEventListener('click',()=>{const open=links.classList.toggle('open');toggle.setAttribute('aria-expanded',String(open));});links.addEventListener('click',()=>{links.classList.remove('open');toggle.setAttribute('aria-expanded','false')});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&links.classList.contains('open')){links.classList.remove('open');toggle.setAttribute('aria-expanded','false');toggle.focus()}})}
   const path=location.pathname.toLowerCase(), navItems=[...document.querySelectorAll('.nav-links a')];
   if(path.includes('/projects/')){navItems.forEach(a=>a.removeAttribute('aria-current'));const slug=document.body.dataset.project||'';const target=slug.startsWith('lox')?'#projects':(/^micro/i.test(slug)?'#toolkit':'#other');navItems.find(a=>a.getAttribute('href')?.includes(target))?.setAttribute('aria-current','page')}
-  document.querySelectorAll('pre code').forEach(code=>{const wrap=code.parentElement.parentElement;if(!wrap.classList.contains('code-wrap'))return;const b=document.createElement('button');b.className='copy';b.type='button';b.textContent='Copy';b.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(code.textContent);b.textContent='Copied';track('copy_code',{project:document.body.dataset.project||'home'});setTimeout(()=>b.textContent='Copy',1500)}catch(e){b.textContent='Select text'}});wrap.appendChild(b)});
+  document.querySelectorAll('pre code').forEach(code=>{const wrap=code.closest('.code-wrap,.ds-code');if(!wrap||wrap.querySelector('.copy'))return;const b=document.createElement('button');b.className='copy';b.type='button';b.textContent='Copy';b.setAttribute('aria-label','Copy code example');b.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(code.textContent);b.textContent='Copied';b.setAttribute('aria-label','Code copied');track('copy_code',{project:document.body.dataset.project||'home'});setTimeout(()=>{b.textContent='Copy';b.setAttribute('aria-label','Copy code example')},1500)}catch(e){b.textContent='Select text'}});wrap.appendChild(b)});
   const search=document.querySelector('#project-search'), selects=[...document.querySelectorAll('[data-filter]')], cards=[...document.querySelectorAll('[data-project-card]')], empty=document.querySelector('.empty');
-  function filter(){const q=(search?.value||'').toLowerCase();let shown=0;cards.forEach(c=>{const ok=(!q||c.textContent.toLowerCase().includes(q))&&selects.every(s=>!s.value||(c.dataset[s.dataset.filter]||'').split(' ').includes(s.value));c.hidden=!ok;if(ok)shown++});if(empty)empty.style.display=shown?'none':'block'}
+  const resultCount=document.querySelector('[data-result-count]');
+  function filter(){const q=(search?.value||'').toLocaleLowerCase();let shown=0;cards.forEach(c=>{const ok=(!q||c.textContent.toLocaleLowerCase().includes(q))&&selects.every(s=>{if(!s.value)return true;const value=c.dataset[s.dataset.filter]||'';return value===s.value||value.split(/\s+/).includes(s.value)});c.hidden=!ok;if(ok)shown++});if(empty){empty.hidden=shown!==0;empty.style.display=shown?'none':''}if(resultCount)resultCount.textContent=String(shown)}
+  if(selects.length){const params=new URLSearchParams(location.search);selects.forEach(select=>{const requested=params.get(select.dataset.filter);if(requested&&[...select.options].some(option=>option.value===requested))select.value=requested})}
+  if(cards.length)filter();
   search?.addEventListener('input',filter);selects.forEach(s=>s.addEventListener('change',()=>{filter();track('use_filter',{filter:s.dataset.filter,value:s.value})}));
+  document.querySelector('[data-filter-reset]')?.addEventListener('click',()=>{if(search)search.value='';selects.forEach(s=>s.value='');filter();search?.focus()});
   window.track=function(name,params){if(typeof window.gtag==='function')window.gtag('event',name,params||{})};
   document.addEventListener('click',e=>{const a=e.target.closest('a[data-event]');if(a)track(a.dataset.event,{href:a.href,project:document.body.dataset.project||'home'})});
   const demo=document.querySelector('[data-demo]');if(demo){const out=demo.querySelector('.demo-output');demo.addEventListener('click',e=>{if(!e.target.matches('[data-run-demo]'))return;const type=demo.dataset.demo;let text='';if(type==='loxbudget'){const pressure=Number(demo.querySelector('input').value);text=pressure<50?'ALLOW_FULL: operation may start':pressure<75?'ALLOW_DEGRADED: use reduced profile':pressure<90?'DEFER: retry after pressure falls':'DENY: budget is unsafe'}else if(type==='loxdb'){const op=demo.querySelector('select').value;text=op==='interrupt'?'write intent → interruption → WAL scan → last valid state restored':'write intent → data update → sync → commit complete'}else if(type==='loxseq'){text=out.dataset.step==='2'?'checkpoint read → recovery verdict → resume policy applied':'step 1 → checkpoint → step 2';out.dataset.step='2'}else if(type==='loxsort'){const stable=demo.querySelector('input').checked;text=stable?'Stable required → bottom-up merge if scratch is sufficient':'Constraints evaluated → profile selects eligible strategy'}else if(type==='loxguard'){text='failure captured → evidence recorded → configured policy action requested'}else{text='Input accepted → documented state transition shown'}out.textContent=text;track('run_demo',{project:type})})}
@@ -91,6 +95,51 @@
   }));
 })();
 
+// Design-system progression is an enhancement: sections remain visible unless
+// the observer has been installed successfully, and reduced-motion skips it.
+(function(){
+  if(!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const reveal=[...document.querySelectorAll('.ds-section,.ds-feature')];
+  reveal.forEach(item=>item.classList.add('ds-reveal'));
+  document.body.classList.add('ds-motion-ready');
+  const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{
+    if(entry.isIntersecting){entry.target.classList.add('is-visible');observer.unobserve(entry.target)}
+  }),{threshold:.08,rootMargin:'0px 0px -24px'});
+  reveal.forEach(item=>observer.observe(item));
+  document.querySelectorAll('.ds-diagram').forEach(diagram=>{
+    diagram.querySelectorAll('svg path').forEach(path=>{if(!path.closest('defs'))path.setAttribute('data-signal','')});
+    const signalObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){diagram.classList.add('is-active');signalObserver.disconnect()}}),{threshold:.25});
+    signalObserver.observe(diagram);
+  });
+})();
+
+// Follow the visible product section without taking control of page scrolling.
+(function(){
+  const nav=document.querySelector('.ds-product-nav');
+  if(!nav||!('IntersectionObserver' in window))return;
+  const links=[...nav.querySelectorAll('a[href^="#"]')];
+  const sections=links.map(link=>document.getElementById(link.hash.slice(1))).filter(Boolean);
+  if(!sections.length)return;
+  const observer=new IntersectionObserver(entries=>{
+    const visible=entries.filter(entry=>entry.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];
+    if(!visible)return;
+    links.forEach(link=>{if(link.hash===`#${visible.target.id}`)link.setAttribute('aria-current','location');else link.removeAttribute('aria-current')});
+  },{rootMargin:'-18% 0px -68% 0px',threshold:[0,.25,.5]});
+  sections.forEach(section=>observer.observe(section));
+})();
+
+// A restrained hero light uses one animation-frame update at a time.
+(function(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const hero=document.querySelector('.ds-hero-light');
+  if(!hero||matchMedia('(hover: none)').matches)return;
+  let x=.75,y=.45,px=0,py=0,frame=0;
+  hero.addEventListener('pointermove',event=>{
+    const box=hero.getBoundingClientRect();x=(event.clientX-box.left)/box.width*100;y=(event.clientY-box.top)/box.height*100;px=((event.clientX-box.left)/box.width-.5)*8;py=((event.clientY-box.top)/box.height-.5)*5;
+    if(frame)return;frame=requestAnimationFrame(()=>{hero.style.setProperty('--light-x',`${x}%`);hero.style.setProperty('--light-y',`${y}%`);hero.style.setProperty('--hero-x',`${px}px`);hero.style.setProperty('--hero-y',`${py}px`);frame=0});
+  },{passive:true});
+})();
+
 (function(){
   const meter=document.createElement('div');
   meter.className='scroll-meter';meter.setAttribute('aria-hidden','true');document.body.appendChild(meter);
@@ -107,17 +156,25 @@
 (function(){
   const focus=document.querySelector('[data-hero-focus]');
   if(focus){
-    const output=focus.querySelector('.focus-output'),buttons=[...focus.querySelectorAll('[data-focus]')];
-    const messages={storage:'Predictable persistence for configuration, telemetry and small structured data.',recovery:'Explicit WAL, boot and restart paths for recovering from interrupted work.',diagnostics:'Bounded evidence, logs, alarms and crash data that explain what happened.',communication:'Small queues, protocols and network components for constrained devices.',control:'Explicit ownership, fixed limits and repeatable decisions in portable C.'};
-    let timer,index=0;
-    const select=button=>{buttons.forEach(item=>item.setAttribute('aria-pressed',String(item===button)));output.classList.remove('focus-changing');void output.offsetWidth;output.textContent=messages[button.dataset.focus];output.classList.add('focus-changing');index=buttons.indexOf(button)};
-    const stop=()=>{if(timer)clearInterval(timer);timer=null};
-    buttons.forEach(button=>button.addEventListener('click',()=>{stop();select(button)}));
-    if(!matchMedia('(prefers-reduced-motion: reduce)').matches)timer=setInterval(()=>select(buttons[index=(index+1)%buttons.length]),4200);
+    const output=focus.querySelector('.focus-output'),title=focus.querySelector('.focus-title'),link=focus.querySelector('.focus-link'),buttons=[...focus.querySelectorAll('[data-focus]')];
+    const content={
+      storage:{title:'Persistent storage',text:'Predictable persistence for configuration, telemetry and small structured data.',label:'Explore LOX DB',href:'projects/loxdb.html'},
+      recovery:{title:'Recovery & lifecycle',text:'Explicit restart, checkpoint and update paths for systems that must handle interruption.',label:'Explore LOX Boot',href:'projects/loxboot.html'},
+      diagnostics:{title:'Diagnostics & evidence',text:'Bounded logs, alarms and crash records that help explain what happened.',label:'Explore panicdump',href:'projects/panicdump.html'},
+      communication:{title:'Embedded communication',text:'Protocol and network components designed around constrained devices and explicit limits.',label:'Explore µMesh',href:'projects/umesh.html'},
+      control:{title:'Deterministic control',text:'Small, explicit primitives for state, scheduling and repeatable decisions in portable C.',label:'Explore Axiom One',href:'projects/axiom-one.html'}
+    };
+    buttons.forEach(button=>button.addEventListener('click',()=>{
+      const selected=button.dataset.focus,entry=content[selected];
+      if(!entry)return;
+      buttons.forEach(item=>item.setAttribute('aria-pressed',String(item===button)));
+      focus.dataset.active=selected;title.textContent=entry.title;output.textContent=entry.text;
+      link.href=entry.href;link.firstChild.textContent=`${entry.label} `;
+    }));
   }
   document.querySelectorAll('[data-count]').forEach(counter=>{
     const target=Number(counter.dataset.count)||0,draw=()=>{const started=performance.now(),duration=650;const tick=now=>{counter.textContent=String(Math.min(target,Math.round(target*((now-started)/duration))));if(now-started<duration)requestAnimationFrame(tick)};requestAnimationFrame(tick)};
-    if('IntersectionObserver' in window){const observer=new IntersectionObserver(entries=>{if(entries.some(entry=>entry.isIntersecting)){draw();observer.disconnect()}},{threshold:.4});observer.observe(counter)}else counter.textContent=String(target);
+    if(matchMedia('(prefers-reduced-motion: reduce)').matches||!('IntersectionObserver' in window))counter.textContent=String(target);else{const observer=new IntersectionObserver(entries=>{if(entries.some(entry=>entry.isIntersecting)){draw();observer.disconnect()}},{threshold:.4});observer.observe(counter)}
   });
 })();
 
@@ -128,13 +185,6 @@
     const launch=()=>{rocket.classList.remove('launched');void rocket.offsetWidth;rocket.classList.add('launched')};
     rocket.addEventListener('click',launch);
     if(!reduced)setTimeout(launch,650);
-  }
-  if(!reduced){
-    document.querySelectorAll('.hero').forEach(hero=>hero.addEventListener('pointermove',event=>{
-      const box=hero.getBoundingClientRect();
-      hero.style.setProperty('--hero-x',`${((event.clientX-box.left)/box.width-.5)*12}px`);
-      hero.style.setProperty('--hero-y',`${((event.clientY-box.top)/box.height-.5)*8}px`);
-    }));
   }
   document.querySelectorAll('.button').forEach(button=>button.addEventListener('pointerdown',event=>{
     const ripple=document.createElement('i'),box=button.getBoundingClientRect();

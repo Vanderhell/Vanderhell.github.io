@@ -1,0 +1,8 @@
+.ds-reveal { opacity: 1; transform: none; }
+.ds-motion-ready .ds-reveal { opacity: 0; transform: translateY(14px); transition: opacity .55s ease,transform .55s cubic-bezier(.2,.7,.2,1); }
+.ds-motion-ready .ds-reveal.is-visible { opacity: 1; transform: none; }
+.ds-hero-light { background: radial-gradient(420px circle at var(--light-x,75%) var(--light-y,45%),rgba(40,146,178,.19),transparent 68%); }
+@media (prefers-reduced-motion: reduce) {
+  *,*::before,*::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  .ds-motion-ready .ds-reveal { opacity: 1; transform: none; }
+}
