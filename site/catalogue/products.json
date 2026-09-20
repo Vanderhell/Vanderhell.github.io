@@ -586,5 +586,17 @@
     "repository": "https://github.com/Vanderhell/loxc",
     "description": "Pure C99, MIT trainable frequency-optimized text codec with v2 and matrix-based v3 formats, including HIER4/HIER8 nested matrices.",
     "tags": []
+  },
+  {
+    "slug": "equishift",
+    "name": "EquiShift",
+    "family": "Additional projects",
+    "status": "Development",
+    "version": "v0.1.0",
+    "language": "C11",
+    "license": "Apache-2.0",
+    "repository": "https://github.com/Vanderhell/EquiShift",
+    "description": "Deterministic C11 primitives for safe constraint-preserving transfers on embedded systems, with caller-owned state, checked arithmetic and exact sequence restoration.",
+    "tags": []
   }
 ]

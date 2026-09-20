@@ -17,7 +17,7 @@
   },
   "deterministic-control": {
     "label": "Deterministic control",
-    "products": ["loxbudget","loxseq","loxperm","loxalarm","loxsort","microfsm","microres","microtimer","axiom-one","graygyre","skipspace","implicitnet"]
+    "products": ["loxbudget","loxseq","loxperm","loxalarm","loxsort","microfsm","microres","microtimer","axiom-one","graygyre","skipspace","implicitnet","equishift"]
   },
   "runtime-infrastructure": {
     "label": "Runtime infrastructure",
@@ -29,6 +29,6 @@
   },
   "embedded-utilities": {
     "label": "Embedded utilities",
-    "products": ["safemath","microassert","microtest","microsh","microcrypt","microdh","micro-toolkit","axiom-one","loxperm","loxsort","microflash"]
+    "products": ["safemath","microassert","microtest","microsh","microcrypt","microdh","micro-toolkit","axiom-one","loxperm","loxsort","microflash","equishift"]
   }
 }
